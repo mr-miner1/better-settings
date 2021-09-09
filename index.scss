@@ -1,0 +1,91 @@
+
+.fav-cont{
+    grid-area: 1/1;
+.sup-settings-fav{
+    color: var(--interactive-normal);
+}
+.sup-settings-fav:hover{
+    color: var(--interactive-hover) !important;
+}
+}
+.side-8zPYf6{
+    display: grid;
+}
+.settingssearch{
+    position: absolute;
+    top: 2%;
+    width: 182px;
+    border: 1px solid var(--background-tertiary);
+    padding: 10px;
+    height: 30px;
+    font-size: 15px;
+    background-color: var(--background-tertiary);
+    color: rgba(255, 255, 255, 0.514);
+    transition: 0.2s;
+    border-radius: 4px;
+    &:focus{
+        color: var(--text-normal);
+    }
+    &:focus + .icon{
+        opacity: 1;
+    }
+}
+.side-8zPYf6{
+    color: white;
+    transition: 0.1s;
+}
+.upgraded-settings-fav{
+    color: var(--favorite-setting-color) !important;
+}
+.SettingsUpgradedSetting{ 
+    .uwu{
+        font-size: 15px;
+    }
+    .colorPickerSwatch-5GX3Ve.custom-2SJn4n.noColor-1pdBDm{
+    background-color: var(--favorite-setting-color);
+    // transition: 0.01s;
+    
+}
+}
+.upgraded-settings-bad-disable{
+    display: none !important;
+}
+.settingsicon{
+    transition: 0.2s;
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    // font-size: 20px;
+    opacity: 0.7;
+    top: 28px;
+    left: 93.5%;
+    background-image: url("https://svgur.com/i/_yk.svg");
+}
+.categorydisabled{
+    cursor: not-allowed !important;
+    filter: grayscale(1);
+}
+@media screen and (max-width: 1635px) {
+    .icon{
+        left: 93%;
+        top: 26px;
+    }
+}
+@media screen and (max-width: 1356px) {
+    .icon{
+        left: 89.6%;
+        top: 26px;
+    }
+}
+@media screen and (max-width: 1133px) {
+    .icon{
+        left: 87.5%;
+        top: 26px;
+    }
+}
+@media screen and (max-width: 1036px) {
+    .icon{
+        left: 84%;
+        top: 26px;
+    }
+}

@@ -2,15 +2,16 @@
 const { Plugin } = require("powercord/entities");
 const { inject, uninject } = require("powercord/injector");
 const {getModule} = require('powercord/webpack');
-module.exports = class BetterSettings extends Plugin {
+module.exports = class bettersettings extends Plugin {
   async startPlugin() {
     const pluginsettings = require('./settings');
     this.loadStylesheet('./index.scss');
-    powercord.api.settings.registerSettings("BetterSettings", {
+    powercord.api.settings.registerSettings(this.entityID, {
       category: this.entityID,
       label: this.manifest.name,
       render: pluginsettings
   })
+  console.log(this)
     const search = (settings, args, name) =>{
       let input, value, items, i
       const baddiecolor = this.settings.get("baddiecolor")
@@ -150,14 +151,14 @@ module.exports = class BetterSettings extends Plugin {
       })
   }
   const favorites = () =>{
-    const color = this.settings.get("color")
-    const favoritemode = this.settings.get("favoritemode")
+    const color = this.settings.get("color", parseInt("d4af37", 16))
+    const favoritemode = this.settings.get("favoritemode", "ontop")
     if (color !== undefined){
       document.querySelector(`[aria-label*="_SETTINGS"]`).style.cssText = `--favorite-setting-color: #${color.toString(16)}`
     }else{
       document.querySelector(`[aria-label*="_SETTINGS"]`).style.cssText = `--favorite-setting-color: gold`
     }
-    let favoritesettings = this.settings.get("favorites")
+    const favoritesettings = this.settings.get("favorites", "")
     let allitems = document.getElementsByClassName('item-PXvHYJ');
     let favorites = favoritesettings.split(", ")
     let cont = document.createElement("div")
@@ -201,10 +202,10 @@ module.exports = class BetterSettings extends Plugin {
   }
 }
 const disabled = () =>{
-  const baddiecolor = this.settings.get("baddiecolor")
-  const baddiemode = this.settings.get("baddiemode")
-  const opacity = this.settings.get("opacity")
-  let baddiessettings =  this.settings.get("baddies")
+  const baddiecolor = this.settings.get("baddiecolor", parseInt("dd3a3a", 16))
+  const baddiemode = this.settings.get("baddiemode", "display")
+  const opacity = this.settings.get("opacity", 30)
+  let baddiessettings =  this.settings.get("baddies", "")
   let allitems = document.getElementsByClassName('item-PXvHYJ');
   let baddies = baddiessettings.split(", ")
   for (let i = 0; i < allitems.length; i++) {
@@ -226,8 +227,8 @@ const disabled = () =>{
 }
 let lastsection;
 const shortcut = (open) =>{
-  let shortcutsettings = this.settings.get("shortcutname")
-  let key = this.settings.get("shortcutkey")
+  let shortcutsettings = this.settings.get("shortcutname", "Better Settings")
+  let key = this.settings.get("shortcutkey", "NONE")
   key = key.toUpperCase()
   if (key != "NONE"){
     key = key[0]
@@ -239,7 +240,7 @@ const shortcut = (open) =>{
         break
         }else if (i == items.length-1){
           // console.log(shortcutsettings)
-          shortcutsettings = "BetterSettings"
+          shortcutsettings = "Better Settings"
         }
     }
     document.querySelector(`[aria-label="USER_SETTINGS"]`).addEventListener("keydown", (e) => {
@@ -259,8 +260,9 @@ inject(
   SettingsView.prototype,
   'render',
   (_, res) =>{
-    const autofocus = this.settings.get("AutoFocus")
-    const noreset = this.settings.get("noreset")
+    // console.log(powercord.pluginManager.get("bettersettings"))
+    const autofocus = this.settings.get("AutoFocus", true)
+    const noreset = this.settings.get("noreset", false)
     let settings;
     setTimeout(() => {
       settings = document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`)
@@ -299,7 +301,6 @@ inject(
         search(document.querySelector(`[aria-label="GUILD_SETTINGS"] .sidebar-CFHs9e`), 190, "GUILD_SETTINGS")
         favorites()
         disabled()
-        // shortcut(lastsection)
       }
     }, 0);
     return (res);
@@ -308,7 +309,7 @@ inject(
 }
 pluginWillUnload() {
   uninject('settingssearch');
-  powercord.api.settings.unregisterSettings("BetterSettings")
+  powercord.api.settings.unregisterSettings(this.entityID)
 }
 // openPatch(args) {
 //   if (

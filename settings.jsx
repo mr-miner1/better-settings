@@ -14,7 +14,7 @@ module.exports = class pluginsettings extends React.PureComponent {
     render() {
         const { getSetting, toggleSetting, updateSetting } = this.props
         return(
-            <div className="SettingsUpgradedSetting">
+            <div className="BetterSettingsSettings">
                  <SwitchItem
                         value={this.props.getSetting('AutoFocus', true)}
                         onChange={() => {this.props.toggleSetting('AutoFocus', true);}}
@@ -22,8 +22,8 @@ module.exports = class pluginsettings extends React.PureComponent {
                         Auto Focus
                     </SwitchItem>
                     <SwitchItem
-                        value={this.props.getSetting('noreset', false)}
-                        onChange={() => {this.props.toggleSetting('noreset', false);}}
+                        value={this.props.getSetting('noreset')}
+                        onChange={(v) => {this.props.toggleSetting('noreset', v.value);}}
                         note="Reopen the last settings section you had open">
                         Dont Reset Settings On Close
                     </SwitchItem>

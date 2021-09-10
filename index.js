@@ -76,15 +76,19 @@ module.exports = class BetterSettings extends Plugin {
             for (let i = 0; i <  document.querySelectorAll(".separator-gCa7yv").length; i++){
             document.querySelectorAll(".separator-gCa7yv")[i].style = "display:none"
             }
-            document.querySelector(".socialLinks-3jqNFy").style = "display:none"
-            document.querySelector(".info-1VyQPT").style = "display:none"
+            if (name == "USER_SETTINGS"){
+              document.querySelector(".socialLinks-3jqNFy").style = "display:none"
+              document.querySelector(".info-1VyQPT").style = "display:none"
+            }
           }else if (displaycount < 4){
             for (let i = 0; i < document.querySelectorAll(".header-2RyJ0Y").length; i++) {
               document.querySelectorAll(".header-2RyJ0Y")[i].style = "display: none;"
               document.querySelectorAll(".separator-gCa7yv")[i].style = "display: none;"
             }
-            document.querySelector(".socialLinks-3jqNFy").style = "display:block"
-            document.querySelector(".info-1VyQPT").style = "display:block"
+            if (name == "USER_SETTINGS"){
+              document.querySelector(".socialLinks-3jqNFy").style = "display:block"
+              document.querySelector(".info-1VyQPT").style = "display:block"
+            }
             if (document.getElementsByClassName("noresults")[0] != undefined){
               document.getElementsByClassName("noresults")[0].remove()
             }
@@ -94,9 +98,11 @@ module.exports = class BetterSettings extends Plugin {
               document.querySelectorAll(".header-2RyJ0Y")[i].style = "display:block"
               document.querySelectorAll(".separator-gCa7yv")[i].style = "display:block"
             }
-            document.querySelectorAll(".separator-gCa7yv")[ document.querySelectorAll(".header-2RyJ0Y").length+1].style = "display:block"
-            document.querySelector(".socialLinks-3jqNFy").style = "display:block"
-            document.querySelector(".info-1VyQPT").style = "display:block"
+            if (name == "USER_SETTINGS"){
+              document.querySelectorAll(".separator-gCa7yv")[ document.querySelectorAll(".header-2RyJ0Y").length+1].style = "display:block"
+              document.querySelector(".socialLinks-3jqNFy").style = "display:block"
+              document.querySelector(".info-1VyQPT").style = "display:block"
+            }
             if (document.getElementsByClassName("noresults")[0] != undefined){
              document.getElementsByClassName("noresults")[0].remove()
            }
@@ -315,14 +321,14 @@ inject(
     }, 0);
 
     setTimeout(() => {
-      settings = document.querySelector(`[aria-label="GUILD_SETTINGS"] .sidebar-CFHs9e`)
+      settings = document.querySelector(`[aria-label="GUILD_SETTINGS"] .side-8zPYf6`)
       if (settings != null && settings.id != "checked"){
         setTimeout(() => {
           if (autofocus == true){
             document.getElementById('settingssearch').focus()
             }
         },1)
-        search(document.querySelector(`[aria-label="GUILD_SETTINGS"] .sidebar-CFHs9e`), 190, "GUILD_SETTINGS")
+        search(document.querySelector(`[aria-label="GUILD_SETTINGS"] .side-8zPYf6`), 190, "GUILD_SETTINGS")
         favorites()
         disabled()
       }

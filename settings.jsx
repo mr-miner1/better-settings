@@ -27,32 +27,6 @@ module.exports = class pluginsettings extends React.PureComponent {
                         note="Reopen the last settings section you had open">
                         Dont Reset Settings On Close
                     </SwitchItem>
-                    <Category
-                        name='Shortcuts'
-                        description="early beta, feedback appreciated."
-                        opened={ this.state.shortcuts }
-                        onChange={() => this.setState({ shortcuts: !this.state.shortcuts })}>
-                        {/* <SwitchItem
-                            value={this.props.getSetting('shortcut', true)}
-                            onChange={() => {this.props.toggleSetting('shortcut', true);}}
-                            note="Allows you to open settings using a keyboard shortcut">
-                            Settings Shortcut [CTRL + SHIFT + S]
-                        </SwitchItem> */}
-                        <TextInput
-                        defaultValue={getSetting("shortcutname", "Better Settings")} 
-                        onChange={(v) => {updateSetting("shortcutname", v)}}
-                        // note={'c'}
-                        placeholder={"My Account"}>
-                        Shortcut Name
-                        </TextInput>
-                        <TextInput
-                        defaultValue={getSetting("shortcutkey", "none")} 
-                        onChange={(v) => {updateSetting("shortcutkey", v)}}
-                        note={'should be a sigunlar alphabet\n "none" to disable'}
-                        placeholder={"A"}>
-                        Shortcut Key
-                    </TextInput>
-                    </Category>
                 <Category
                     name='Favorites'
                     // description="Customize Your Embeds"
@@ -63,7 +37,7 @@ module.exports = class pluginsettings extends React.PureComponent {
                         onChange={(v) => {updateSetting("favorites", v)}}
                         note={'seperate arguements with ", "'}
                         placeholder={"My Account, Plugins, Better Settings"}>
-                        Favorites
+                        Favorites List
                     </TextInput>
                     <RadioGroup
                             onChange={(v) => {updateSetting('favoritemode', v.value)}}
@@ -92,16 +66,16 @@ module.exports = class pluginsettings extends React.PureComponent {
                             </ColorPickerInput>
                 </Category>
                 <Category
-                    name='Baddies'
+                    name='Hidden'
                     // description="Customize Your Embeds"
                     opened={this.state.badsettings}
                     onChange={() => this.setState({ badsettings: !this.state.badsettings })}>
                          <TextInput 
                         defaultValue={getSetting("baddies", "")} 
                         onChange={(v) => {updateSetting("baddies", v)}}
-                        note={'seperate arguements with ", "\nSearch "-bad" to view them'}
+                        note={'seperate arguements with ", "'}
                         placeholder={"My Account, Plugins, Better Settings"}>
-                        Baddies
+                        Hidden List
                     </TextInput>
                     <RadioGroup
                     onChange={(v) => {updateSetting('baddiemode', v.value)}}
@@ -149,13 +123,39 @@ module.exports = class pluginsettings extends React.PureComponent {
                 onChange={() => this.setState({ tips: !this.state.tips })}>
                     <div
                     className="uwu colorStandard-2KCXvj size14-e6ZScH description-3_Ncsb formText-3fs7AJ modeDefault-3a2Ph1">
-                        1. Searching -bad in settings give you a list of all your disabled settings
+                        1. Searching $hidden in settings give you a list of all your disabled settings
                         <br></br>
                         2. Searching supports auto fill, ie: if u searched "Conn" and pressed enter it would open the Connections tab for you
                         <br></br>
                         3. Fact: You are cute 😳
                     </div>
                 </Category>
+                <Category
+                        name='Shortcuts'
+                        description="early beta, feedback appreciated."
+                        opened={ this.state.shortcuts }
+                        onChange={() => this.setState({ shortcuts: !this.state.shortcuts })}>
+                        {/* <SwitchItem
+                            value={this.props.getSetting('shortcut', true)}
+                            onChange={() => {this.props.toggleSetting('shortcut', true);}}
+                            note="Allows you to open settings using a keyboard shortcut">
+                            Settings Shortcut [CTRL + SHIFT + S]
+                        </SwitchItem> */}
+                        <TextInput
+                        defaultValue={getSetting("shortcutname", "Better Settings")} 
+                        onChange={(v) => {updateSetting("shortcutname", v)}}
+                        // note={'c'}
+                        placeholder={"My Account"}>
+                        Shortcut Name
+                        </TextInput>
+                        <TextInput
+                        defaultValue={getSetting("shortcutkey", "none")} 
+                        onChange={(v) => {updateSetting("shortcutkey", v)}}
+                        note={'should be a sigunlar alphabet\n "none" to disable'}
+                        placeholder={"A"}>
+                        Shortcut Key
+                    </TextInput>
+                    </Category>
             </div>
         )
     }

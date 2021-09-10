@@ -13,8 +13,10 @@ module.exports = class BetterSettings extends Plugin {
   })
     const search = (settings, args, name) =>{
       let input, value, items, i
-      const baddiecolor = this.settings.get("baddiecolor")
+      const baddiecolor = this.settings.get("baddiecolor", parseInt("dd3a3a", 16))
       //add settingssearchbar
+      let searchdiv = document.createElement("div")
+      let searchdivclass = document.createAttribute("class")
       let settingsbar = document.createElement("input");
       let settingsclass = document.createAttribute("class")
       let placeholder = document.createAttribute("placeholder")
@@ -28,12 +30,15 @@ module.exports = class BetterSettings extends Plugin {
       settingsid.value = "settingssearch";
       placeholder.value = "Search"
       check.value = "checked"
+      searchdivclass.value = "searchdiv"
+      searchdiv.setAttributeNode(searchdivclass)
       settingsbar.setAttributeNode(settingsclass);
       settingsbar.setAttributeNode(settingsid);
       settingsbar.setAttributeNode(placeholder);
-      settings.appendChild(settingsbar);
+      settings.appendChild(searchdiv);
+      searchdiv.appendChild(settingsbar)
       settings.setAttributeNode(check)
-      settings.appendChild(settingsicon)
+      searchdiv.appendChild(settingsicon)
       //eventlistner for when input changes
       settingsbar.addEventListener('input', () =>{
         //search
@@ -47,6 +52,8 @@ module.exports = class BetterSettings extends Plugin {
               items[i].style.display = "none";
             }
         }
+        let noresults;
+        let noresultsclass;
         let displaycount = 0;
         for (let i = 0; i < items.length; i++) {
           if ("display: none".indexOf(items[i].style.cssText) == 0){
@@ -55,42 +62,55 @@ module.exports = class BetterSettings extends Plugin {
           }
         }
           if (displaycount == 0){
-            // document.querySelectorAll(".side-8zPYf6")[0].innerHTML = "nothing found uwu :(("
-            document.querySelectorAll(".side-8zPYf6")[0].style.opacity = "0"
+            for (let i = 0; i < document.querySelectorAll(".header-2RyJ0Y").length; i++) {
+              document.querySelectorAll(".header-2RyJ0Y")[i].style = "display: none;"
+            }
+            if (document.getElementsByClassName("noresults")[0] == undefined){
+              noresults = document.createElement("div")
+              noresultsclass = document.createAttribute("class")
+              noresultsclass.value = "noresults"
+              noresults.textContent = "We searched far and wide. Unfortunately, no results were found."
+              noresults.setAttributeNode(noresultsclass)
+              settings.appendChild(noresults)
+              }
+            for (let i = 0; i <  document.querySelectorAll(".separator-gCa7yv").length; i++){
+            document.querySelectorAll(".separator-gCa7yv")[i].style = "display:none"
+            }
+            document.querySelector(".socialLinks-3jqNFy").style = "display:none"
+            document.querySelector(".info-1VyQPT").style = "display:none"
           }else if (displaycount < 4){
             for (let i = 0; i < document.querySelectorAll(".header-2RyJ0Y").length; i++) {
               document.querySelectorAll(".header-2RyJ0Y")[i].style = "display: none;"
               document.querySelectorAll(".separator-gCa7yv")[i].style = "display: none;"
             }
+            document.querySelector(".socialLinks-3jqNFy").style = "display:block"
+            document.querySelector(".info-1VyQPT").style = "display:block"
+            if (document.getElementsByClassName("noresults")[0] != undefined){
+              document.getElementsByClassName("noresults")[0].remove()
+            }
             document.querySelectorAll(".separator-gCa7yv")[ document.querySelectorAll(".header-2RyJ0Y").length+1].style = "display:none"
-            document.querySelectorAll(".side-8zPYf6")[0].style.opacity = "100"
           }else{
             for (let i = 0; i < document.querySelectorAll(".header-2RyJ0Y").length; i++) {
               document.querySelectorAll(".header-2RyJ0Y")[i].style = "display:block"
               document.querySelectorAll(".separator-gCa7yv")[i].style = "display:block"
             }
             document.querySelectorAll(".separator-gCa7yv")[ document.querySelectorAll(".header-2RyJ0Y").length+1].style = "display:block"
-            document.querySelectorAll(".side-8zPYf6")[0].style.opacity = "100"
+            document.querySelector(".socialLinks-3jqNFy").style = "display:block"
+            document.querySelector(".info-1VyQPT").style = "display:block"
+            if (document.getElementsByClassName("noresults")[0] != undefined){
+             document.getElementsByClassName("noresults")[0].remove()
+           }
           }
           // }else{
           //   document.querySelectorAll(".side-8zPYf6")[0].style.opacity = "0"
           // }
-        if (value == "-BAD"){
-          let showelements = document.getElementsByClassName("upgraded-settings-bad")
+        if (value == "$HIDDEN"){
+          let showelements = document.getElementsByClassName("better-settings-bad")
           for (let i = 0; i < showelements.length; i++) {
             showelements[i].style = `display: block !important; color:#${baddiecolor.toString(16)};`
-            setTimeout(() => {
-              document.querySelectorAll(".side-8zPYf6")[0].style.opacity = "100"
-            }, 10);
           }
-          for (let i = 0; i < document.querySelectorAll(".header-2RyJ0Y").length; i++) {
-            document.querySelectorAll(".header-2RyJ0Y")[i].style.display = "none"
-            document.querySelectorAll(".separator-gCa7yv")[i].style.display = "none"
-          }
-        }else if (displaycount > 3){
-          for (let i = 0; i < document.querySelectorAll(".header-2RyJ0Y").length; i++) {
-            document.querySelectorAll(".header-2RyJ0Y")[i].style.display = ""
-            document.querySelectorAll(".separator-gCa7yv")[i].style.display = ""
+          if (document.getElementsByClassName("noresults")[0] != undefined){
+            document.getElementsByClassName("noresults")[0].remove()
           }
         }
       })
@@ -99,7 +119,7 @@ module.exports = class BetterSettings extends Plugin {
         if (e.key === 'Enter'){
           let itemid
           for (let i = 0; i < items.length; i++) {
-            if("display: none".indexOf(items[i].style.cssText) == 0 && items[i].classList[2] == "upgraded-settings-fav" && name == "USER_SETTINGS"){
+            if("display: none".indexOf(items[i].style.cssText) == 0 && items[i].classList[2] == "better-settings-fav" && name == "USER_SETTINGS"){
               itemid = items[i].getAttribute("data-item-id")
               // console.log(itemid)
               itemid =  
@@ -115,7 +135,6 @@ module.exports = class BetterSettings extends Plugin {
               (itemid == "StreamerMode") ? "Streamer Mode" :
               (itemid == "GameActivity") ? "Game Activity" : 
               (itemid == "HypeSquadOnline") ? "HypeSquad Online" :  
-              (itemid == "HypeSquadOnline") ? "Hypesquad Online" :
               // (itemid == "ONLINE") ? "Superior Settings" :
               itemid
               settingsModule.open(itemid)
@@ -124,7 +143,7 @@ module.exports = class BetterSettings extends Plugin {
             }
           }
             for (let i = 0; i < items.length; i++) {
-            if ("display: none".indexOf(items[i].style.cssText) == 0 && items[i].classList[2] != "upgraded-settings-fav" && done == false && name == "USER_SETTINGS"){
+            if ("display: none".indexOf(items[i].style.cssText) == 0 && items[i].classList[2] != "better-settings-fav" && done == false && name == "USER_SETTINGS"){
               itemid = items[i].getAttribute("data-item-id")
               // console.log(itemid)
               itemid =  
@@ -174,16 +193,14 @@ module.exports = class BetterSettings extends Plugin {
     contclass.value = "fav-cont"
     cont.setAttributeNode(contclass)
     cont.appendChild(contheader)
-    if (document.getElementsByClassName("side-8zPYf6")[0].id != "favorited" && favoritemode == "ontop"){
-    document.getElementsByClassName("side-8zPYf6")[0].appendChild(cont)
-    let uwuid = document.createAttribute("id")
-    uwuid.value = "favorited"
-    document.getElementsByClassName("side-8zPYf6")[0].setAttributeNode(uwuid)
+    if (document.getElementsByClassName("side-8zPYf6")[0].classList[1] != "favorited" && favoritemode == "ontop"){
+      document.getElementsByClassName("side-8zPYf6")[0].appendChild(cont)
+      document.getElementsByClassName("side-8zPYf6")[0].className+= " favorited"
     }
     for (let i = 0; i < allitems.length; i++) {
       for (let q of favorites) {
           if (allitems[i].textContent.toUpperCase() == q.toUpperCase()){
-            allitems[i].classList += " upgraded-settings-fav"
+            allitems[i].classList += " better-settings-fav"
             if (favoritemode == "ontop"){
               cont.appendChild(allitems[i])
               document.querySelector(`[aria-label*="_SETTINGS"]`).style.cssText = `--favorite-setting-color: var(--interactive-normal)`
@@ -210,11 +227,11 @@ const disabled = () =>{
   for (let i = 0; i < allitems.length; i++) {
     for (let q of baddies) {
         if (allitems[i].textContent.toUpperCase() == q.toUpperCase()){
-          allitems[i].classList += " upgraded-settings-bad"
+          allitems[i].classList += " better-settings-bad"
             if (baddiemode == "color"){
             allitems[i].style.color = `#${baddiecolor.toString(16)}`
             } else if (baddiemode == "display"){
-              allitems[i].classList += " upgraded-settings-bad-disable"
+              allitems[i].classList += " better-settings-bad-disable"
               allitems[i].style.color = `#${baddiecolor.toString(16)}`
             }
             else if (baddiemode == "opacity"){
@@ -264,7 +281,7 @@ inject(
     const noreset = this.settings.get("noreset", false)
     let settings;
     setTimeout(() => {
-      settings = document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`)
+      settings = document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`)
       if (settings != null && settings.id != "checked"){
         if (noreset == true){
         settingsModule.open(lastsection)
@@ -282,7 +299,7 @@ inject(
           updatenotif.textContent = "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (capital sensitive) or reinstall the plugin\nsorry for the incovinence!"
           document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`).append(updatenotif)
         }
-        search(document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`), 380, "USER_SETTINGS")
+        search(document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`), 380, "USER_SETTINGS")
         favorites()
         disabled()
         shortcut(lastsection)

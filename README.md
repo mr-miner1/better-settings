@@ -16,9 +16,9 @@ now you can change their color or have them show above all the other settings!
 |||
 | <img src="https://i.imgur.com/BnyUYr2.png"> | <img src="https://i.imgur.com/SWhZYgV.png"> |
 ###### color is customizable.
-### Baddies
+### Hidden Settings
 #### Sometimes u just dont like a setting.
-completely disable them displaying or lower their opacity!
+completely hide them or change their color or lower their opacity!
 
 | Before | After |
 | --- | --- |

@@ -2,7 +2,7 @@
 const { Plugin } = require("powercord/entities");
 const { inject, uninject } = require("powercord/injector");
 const {getModule} = require('powercord/webpack');
-module.exports = class bettersettings extends Plugin {
+module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
     const pluginsettings = require('./settings');
     this.loadStylesheet('./index.scss');
@@ -11,7 +11,6 @@ module.exports = class bettersettings extends Plugin {
       label: this.manifest.name,
       render: pluginsettings
   })
-  console.log(this)
     const search = (settings, args, name) =>{
       let input, value, items, i
       const baddiecolor = this.settings.get("baddiecolor")
@@ -275,6 +274,14 @@ inject(
           document.getElementById('settingssearch').focus()
           }
         },1)
+        if(this.entityID == "Better-Settings"){
+          let updatenotif = document.createElement("div");
+          let updatenotifclass = document.createAttribute("class")
+          updatenotifclass.value = "updatenotif"
+          updatenotif.setAttributeNode(updatenotifclass)
+          updatenotif.textContent = "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (capital sensitive) or reinstall the plugin\nsorry for the incovinence!"
+          document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`).append(updatenotif)
+        }
         search(document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`), 380, "USER_SETTINGS")
         favorites()
         disabled()

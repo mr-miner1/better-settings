@@ -35,7 +35,7 @@ module.exports = class BetterSettings extends Plugin {
       settingsbar.setAttributeNode(settingsclass);
       settingsbar.setAttributeNode(settingsid);
       settingsbar.setAttributeNode(placeholder);
-      settings.appendChild(searchdiv);
+      settings.prepend(searchdiv);
       searchdiv.appendChild(settingsbar)
       settings.setAttributeNode(check)
       searchdiv.appendChild(settingsicon)

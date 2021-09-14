@@ -1,7 +1,7 @@
 /* eslint-disable */
 const { Plugin } = require("powercord/entities");
 const { inject, uninject } = require("powercord/injector");
-const {getModule} = require('powercord/webpack');
+const { getModule, i18n: { Messages } } = require('powercord/webpack');
 module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
     const pluginsettings = require('./settings');
@@ -28,14 +28,14 @@ module.exports = class BetterSettings extends Plugin {
       settingsicon.setAttributeNode(iconclass)
       settingsclass.value = "settingssearch";
       settingsid.value = "settingssearch";
-      placeholder.value = "Search"
+      placeholder.value = Messages.SEARCH;
       check.value = "checked"
       searchdivclass.value = "searchdiv"
       searchdiv.setAttributeNode(searchdivclass)
       settingsbar.setAttributeNode(settingsclass);
       settingsbar.setAttributeNode(settingsid);
       settingsbar.setAttributeNode(placeholder);
-      settings.appendChild(searchdiv);
+      settings.prepend(searchdiv);
       searchdiv.appendChild(settingsbar)
       settings.setAttributeNode(check)
       searchdiv.appendChild(settingsicon)
@@ -69,7 +69,7 @@ module.exports = class BetterSettings extends Plugin {
               noresults = document.createElement("div")
               noresultsclass = document.createAttribute("class")
               noresultsclass.value = "noresults"
-              noresults.textContent = "We searched far and wide. Unfortunately, no results were found."
+              noresults.textContent = Messages.SEARCH_NO_RESULTS;
               noresults.setAttributeNode(noresultsclass)
               settings.appendChild(noresults)
               }

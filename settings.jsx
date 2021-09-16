@@ -56,14 +56,16 @@ module.exports = class pluginsettings extends React.PureComponent {
                             ]}>
                             Display
                         </RadioGroup>
-                            <ColorPickerInput
-                            default = {parseInt("d4af37", 16)}
-                            onChange={
-                                (v) => {updateSetting("color", v)
-                                // document.body.style.cssText = `--favorite-setting-color: #${v.toString(16)}`;
-                            }}>
-                                Color
-                            </ColorPickerInput>
+                            { this.props.getSetting('favoritemode', "ontop") == "color" ? 
+                                <ColorPickerInput
+                                default = {parseInt("d4af37", 16)}
+                                onChange={
+                                    (v) => {updateSetting("color", v)
+                                    // document.body.style.cssText = `--favorite-setting-color: #${v.toString(16)}`;
+                                }}>
+                                    Color
+                                </ColorPickerInput>
+                            : null}
                 </Category>
                 <Category
                     name='Hidden'
@@ -99,22 +101,26 @@ module.exports = class pluginsettings extends React.PureComponent {
                     ]}>
                     Display
                 </RadioGroup>
-                    <ColorPickerInput
-                    default = {parseInt("dd3a3a", 16)}
-                    onChange={
-                        (v) => {updateSetting("baddiecolor", v)
-                    }}>
-                        Color
-                    </ColorPickerInput>
-                    <SliderInput
-					stickToMarkers
-					minValue={0}
-					maxValue={100}
-					initialValue={getSetting('opacity', 30)}
-					markers={[0,10, 20, 30, 40, 50, 60, 70, 80,90,100]}
-					defaultValue={30}
-					onValueChange={(change) => updateSetting('opacity', change)}
-      	>Opactiy</SliderInput>
+                    { this.props.getSetting("baddiemode", "display") == "color" ?
+                        <ColorPickerInput
+                        default = {parseInt("dd3a3a", 16)}
+                        onChange={
+                            (v) => {updateSetting("baddiecolor", v)
+                        }}>
+                            Color
+                        </ColorPickerInput>
+                    : null }
+                    { this.props.getSetting("baddiemode", "display") == "opacity" ?
+                        <SliderInput
+                        stickToMarkers
+                        minValue={0}
+                        maxValue={100}
+                        initialValue={getSetting('opacity', 30)}
+                        markers={[0,10, 20, 30, 40, 50, 60, 70, 80,90,100]}
+                        defaultValue={30}
+                        onValueChange={(change) => updateSetting('opacity', change)}
+                        >Opacity</SliderInput>
+                    : null }
                 </Category>
                 <Category
                 name='Tips & Tricks'

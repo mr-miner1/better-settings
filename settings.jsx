@@ -1,5 +1,5 @@
 /* eslint-disable */
-const {React} = require('powercord/webpack');
+const { React } = require('powercord/webpack');
 const {
     TabBar,
     SelectInput,
@@ -10,6 +10,7 @@ const {
     RadioGroup,
     ColorPickerInput
 } = require('powercord/components/settings');
+
 module.exports = class pluginsettings extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -22,7 +23,7 @@ module.exports = class pluginsettings extends React.PureComponent {
     }
 
     render() {
-        const {getSetting, toggleSetting, updateSetting} = this.props
+        const { getSetting, toggleSetting, updateSetting } = this.props
         return (
             <div className="BetterSettingsSettings">
                 <SwitchItem
@@ -45,7 +46,7 @@ module.exports = class pluginsettings extends React.PureComponent {
                     name='Favorites'
                     // description="Customize Your Embeds"
                     opened={this.state.favsettings}
-                    onChange={() => this.setState({favsettings: !this.state.favsettings})}>
+                    onChange={() => this.setState({ favsettings: !this.state.favsettings })}>
                     <TextInput
                         defaultValue={getSetting("favorites", "")}
                         onChange={(v) => {
@@ -90,7 +91,7 @@ module.exports = class pluginsettings extends React.PureComponent {
                     name='Hidden'
                     // description="Customize Your Embeds"
                     opened={this.state.badsettings}
-                    onChange={() => this.setState({badsettings: !this.state.badsettings})}>
+                    onChange={() => this.setState({ badsettings: !this.state.badsettings })}>
                     <TextInput
                         defaultValue={getSetting("baddies", "")}
                         onChange={(v) => {
@@ -140,7 +141,7 @@ module.exports = class pluginsettings extends React.PureComponent {
                             minValue={0}
                             maxValue={100}
                             initialValue={getSetting('opacity', 30)}
-                            markers={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+                            markers={[ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ]}
                             defaultValue={30}
                             onValueChange={(change) => updateSetting('opacity', change)}
                         >Opacity</SliderInput>
@@ -150,7 +151,7 @@ module.exports = class pluginsettings extends React.PureComponent {
                     name='Tips & Tricks'
                     description=""
                     opened={this.state.tips}
-                    onChange={() => this.setState({tips: !this.state.tips})}>
+                    onChange={() => this.setState({ tips: !this.state.tips })}>
                     <div
                         className="uwu colorStandard-2KCXvj size14-e6ZScH description-3_Ncsb formText-3fs7AJ modeDefault-3a2Ph1">
                         1. Searching $hidden in settings give you a list of all your disabled settings
@@ -165,13 +166,13 @@ module.exports = class pluginsettings extends React.PureComponent {
                     name='Shortcuts'
                     description="early beta, feedback appreciated."
                     opened={this.state.shortcuts}
-                    onChange={() => this.setState({shortcuts: !this.state.shortcuts})}>
+                    onChange={() => this.setState({ shortcuts: !this.state.shortcuts })}>
                     {/* <SwitchItem
-                            value={this.props.getSetting('shortcut', true)}
-                            onChange={() => {this.props.toggleSetting('shortcut', true);}}
-                            note="Allows you to open settings using a keyboard shortcut">
-                            Settings Shortcut [CTRL + SHIFT + S]
-                        </SwitchItem> */}
+                     value={this.props.getSetting('shortcut', true)}
+                     onChange={() => {this.props.toggleSetting('shortcut', true);}}
+                     note="Allows you to open settings using a keyboard shortcut">
+                     Settings Shortcut [CTRL + SHIFT + S]
+                     </SwitchItem> */}
                     <TextInput
                         defaultValue={getSetting("shortcutname", "Better Settings")}
                         onChange={(v) => {

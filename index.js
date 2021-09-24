@@ -2,7 +2,6 @@
 const { Plugin } = require("powercord/entities");
 const { inject, uninject } = require("powercord/injector");
 const {React, getModule, i18n: { Messages } } = require('powercord/webpack');
-const {LOOP_SVG} = require("./thing")
 module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
     const pluginsettings = require('./settings');

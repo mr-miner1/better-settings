@@ -11,7 +11,7 @@ const {
     ColorPickerInput
 } = require('powercord/components/settings');
 
-module.exports = class pluginsettings extends React.PureComponent {
+module.exports = class PluginSettings extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {

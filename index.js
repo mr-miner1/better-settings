@@ -3,6 +3,7 @@ const { Plugin } = require("powercord/entities");
 const { inject, uninject } = require("powercord/injector");
 const { React, getModule, i18n: { Messages } } = require('powercord/webpack');
 
+const PluginSettings = require('./components/Settings');
 const SearchTextbox = require('./components/SearchTextbox');
 
 const DisabledUtil = require('./util/DisabledUtil');
@@ -13,12 +14,11 @@ const ShortcutUtil = require('./util/ShortcutUtil');
 module.exports = class BetterSettings extends Plugin {
     async startPlugin() {
 
-        const pluginsettings = require('./settings');
         this.loadStylesheet('./index.scss');
         powercord.api.settings.registerSettings(this.entityID, {
             category: this.entityID,
             label: this.manifest.name,
-            render: pluginsettings
+            render: PluginSettings
         });
 
         const SettingsView = await getModule(

@@ -1,94 +1,108 @@
 
-.fav-cont{
-    grid-area: 2/1;
-.better-settings-fav{
+.fav-cont {
+  grid-area: 2/1;
+
+  .better-settings-fav {
     color: var(--interactive-normal);
-}
-.sup-settings-fav:hover{
+  }
+
+  .sup-settings-fav:hover {
     color: var(--interactive-hover) !important;
+  }
 }
+
+.side-8zPYf6 {
+  display: grid;
+  transition: 0.1s;
 }
-.side-8zPYf6{
-    display: grid;
-    transition: 0.1s;
-}
-.searchdiv{
+
+.searchdiv {
+  grid-area: 1/1;
+  margin-bottom: 10px;
+  margin-top: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1 !important;
+  // filter: opacity(100);
+  .settingsicon {
+    grid-area: 1/2;
+    transition: 0.2s;
+    height: 15px;
+    width: 15px;
+    opacity: 0.7;
+    background-image: url("https://svgur.com/i/_yk.svg");
+    margin-left: -20px;
+  }
+
+  #settingssearch {
     grid-area: 1/1;
-    margin-bottom: 10px;
-    margin-top: -10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1 !important;
-    // filter: opacity(100);
-    .settingsicon{
-        grid-area: 1/2;
-        transition: 0.2s;
-        height: 15px;
-        width: 15px;
-        opacity: 0.7;
-        background-image: url("https://svgur.com/i/_yk.svg");
-        margin-left: -20px;
+    width: 190px;
+    border: 1px solid var(--background-tertiary);
+    padding: 10px;
+    height: 30px;
+    font-size: 15px;
+    background-color: var(--background-tertiary);
+    color: rgba(255, 255, 255, 0.514);
+    transition: 0.2s;
+    border-radius: 4px;
+
+    &:focus, &:hover {
+      color: var(--text-normal);
     }
-    #settingssearch{
-        grid-area: 1/1;
-        width: 190px;
-        border: 1px solid var(--background-tertiary);
-        padding: 10px;
-        height: 30px;
-        font-size: 15px;
-        background-color: var(--background-tertiary);
-        color: rgba(255, 255, 255, 0.514);
-        transition: 0.2s;
-        border-radius: 4px;
-        &:focus, &:hover{
-            color: var(--text-normal);
-        }
-        &:focus + .settingsicon, &:hover + .settingsicon{
-            opacity: 1;
-        }
+
+    &:focus + .settingsicon, &:hover + .settingsicon {
+      opacity: 1;
     }
+  }
 }
-.better-settings-fav{
-    color: var(--favorite-setting-color) !important;
+
+.better-settings-fav {
+  color: var(--favorite-setting-color) !important;
 }
-.BetterSettingsSettings{ 
-    .uwu{
-        font-size: 15px;
-    }
-//     .colorPickerSwatch-5GX3Ve.custom-2SJn4n.noColor-1pdBDm{
-//     background-color: var(--favorite-setting-color);
-//     // transition: 0.01s;
-    
-// }
+
+.BetterSettingsSettings {
+  .uwu {
+    font-size: 15px;
+  }
+
+  //     .colorPickerSwatch-5GX3Ve.custom-2SJn4n.noColor-1pdBDm{
+  //     background-color: var(--favorite-setting-color);
+  //     // transition: 0.01s;
+
+  // }
 }
-.better-settings-bad-disable{
-    display: none !important;
+
+.better-settings-bad-disable {
+  display: none !important;
 }
-.categorydisabled{
-    cursor: not-allowed !important;
-    filter: grayscale(1);
+
+.categorydisabled {
+  cursor: not-allowed !important;
+  filter: grayscale(1);
 }
-.updatenotif{
-    position: absolute;
-    top: 2%;
-    opacity: 1;
-    width: 300px;
-    left: 5%;
-    // background: var(--background-tertiary);
-    color: white;
-    // display: none;
+
+.updatenotif {
+  position: absolute;
+  top: 2%;
+  opacity: 1;
+  width: 300px;
+  left: 5%;
+  // background: var(--background-tertiary);
+  color: white;
+  // display: none;
 }
+
 .noresults {
-	margin: auto;
-    margin-top: 10px;
-    grid-area: 2/1;
-    height: 182px;
-    width: 182px;
-    background-repeat: no-repeat;
-    background-size: 120px;
-    background-position: 25px 55px;
-    background-image: url("https://discord.com/assets/7dfacc7529214e45b9e3cfd50979edea.svg");
-    color: var(--text-normal);
-    text-align: center;
+  margin: auto;
+  margin-top: 10px;
+  grid-area: 2/1;
+  height: 182px;
+  width: 182px;
+  background-repeat: no-repeat;
+  background-size: 120px;
+  background-position: 25px 55px;
+  background-image: url("https://discord.com/assets/7dfacc7529214e45b9e3cfd50979edea.svg");
+  color: var(--text-normal);
+  text-align: center;
 }

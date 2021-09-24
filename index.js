@@ -1,7 +1,8 @@
 /* eslint-disable */
 const { Plugin } = require("powercord/entities");
 const { inject, uninject } = require("powercord/injector");
-const { getModule, i18n: { Messages } } = require('powercord/webpack');
+const {React, getModule, i18n: { Messages } } = require('powercord/webpack');
+const {LOOP_SVG} = require("./thing")
 module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
     const pluginsettings = require('./settings');
@@ -15,32 +16,8 @@ module.exports = class BetterSettings extends Plugin {
       let input, value, items, i
       const baddiecolor = this.settings.get("baddiecolor", parseInt("dd3a3a", 16))
       //add settingssearchbar
-      let searchdiv = document.createElement("div")
-      let searchdivclass = document.createAttribute("class")
-      let settingsbar = document.createElement("input");
-      let settingsclass = document.createAttribute("class")
-      let placeholder = document.createAttribute("placeholder")
-      let settingsid = document.createAttribute("id")
-      let check = document.createAttribute("id")
-      let settingsicon = document.createElement("div")
-      let iconclass = document.createAttribute("class")
-      iconclass.value = "settingsicon"
-      settingsicon.setAttributeNode(iconclass)
-      settingsclass.value = "settingssearch";
-      settingsid.value = "settingssearch";
-      placeholder.value = Messages.SEARCH;
-      check.value = "checked"
-      searchdivclass.value = "searchdiv"
-      searchdiv.setAttributeNode(searchdivclass)
-      settingsbar.setAttributeNode(settingsclass);
-      settingsbar.setAttributeNode(settingsid);
-      settingsbar.setAttributeNode(placeholder);
-      settings.prepend(searchdiv);
-      searchdiv.appendChild(settingsbar)
-      settings.setAttributeNode(check)
-      searchdiv.appendChild(settingsicon)
       //eventlistner for when input changes
-      settingsbar.addEventListener('input', () =>{
+      document.getElementById("settingssearch").addEventListener('input', () =>{
         //search
         input = document.getElementById('settingssearch');
         value = input.value.toUpperCase();
@@ -107,9 +84,6 @@ module.exports = class BetterSettings extends Plugin {
              document.getElementsByClassName("noresults")[0].remove()
            }
           }
-          // }else{
-          //   document.querySelectorAll(".side-8zPYf6")[0].style.opacity = "0"
-          // }
         if (value == "$HIDDEN"){
           let showelements = document.getElementsByClassName("better-settings-bad")
           for (let i = 0; i < showelements.length; i++) {
@@ -120,7 +94,7 @@ module.exports = class BetterSettings extends Plugin {
           }
         }
       })
-      settingsbar.addEventListener('keyup', (e) =>{
+      document.getElementById("settingssearch").addEventListener('keyup', (e) =>{
         let done = false
         if (e.key === 'Enter'){
           let itemid
@@ -141,7 +115,6 @@ module.exports = class BetterSettings extends Plugin {
               (itemid == "StreamerMode") ? "Streamer Mode" :
               (itemid == "GameActivity") ? "Game Activity" : 
               (itemid == "HypeSquadOnline") ? "HypeSquad Online" :  
-              // (itemid == "ONLINE") ? "Superior Settings" :
               itemid
               settingsModule.open(itemid)
               done = true
@@ -165,7 +138,6 @@ module.exports = class BetterSettings extends Plugin {
               (itemid == "StreamerMode") ? "Streamer Mode" :
               (itemid == "GameActivity") ? "Game Activity" :
               (itemid == "HypesquadOnline") ? "Hypesquad Online" : 
-              // (itemid == "ONLINE") ? "Superior Settings" :
               itemid
               settingsModule.open(itemid)
               break
@@ -275,20 +247,68 @@ const shortcut = (open) =>{
 const SettingsView = await getModule(
   m => m.displayName == "SettingsView"
 );
+// console.log(SettingsView.prototype.props.sidebar.props.children)
 let settingsModule = await getModule(["open", "saveAccountChanges"]);
 // const sex = await getModule(["open", "saveAccountChanges"])
+const create = (res) =>{
+  let settingsinput = React.createElement("input", {id: "settingssearch", placeholder: Messages.SEARCH}, null)
+  let settingsicon = React.createElement("div", {class: "settingsicon"}, null)
+  res.props.sidebar.props.children.push(React.createElement("div", {class: "searchdiv"}, [settingsinput, settingsicon]))
+//   let favoritelist = []
+//   setTimeout(() => {
+    
+//   const favoritesettings = this.settings.get("favorites", "")
+//   let allitems = document.getElementsByClassName('item-PXvHYJ');
+//   let favorites = favoritesettings.split(", ")
+//   // let cont = document.getElementsByClassName("fav-cont")[0]
+//   const favoritemode = this.settings.get("favoritemode", "ontop")
+//   if (favoritemode == "ontop"){
+//     // document.getElementsByClassName("side-8zPYf6")[0].appendChild(cont)
+//     // document.getElementsByClassName("side-8zPYf6")[0].className+= " favorited"
+//   for (let i = 0; i < allitems.length; i++) {
+//     for (let q of favorites) {
+//         if (allitems[i].textContent.toUpperCase() == q.toUpperCase()){
+//           allitems[i].classList += " better-settings-fav"
+//           // if (favoritemode == "ontop"){
+//             favoritelist.push(React.createElement("div",{class: allitems[i].className}, null))
+//             document.querySelector(`[aria-label*="_SETTINGS"]`).style.cssText = `--favorite-setting-color: var(--interactive-normal)`
+//           // }else if (favoritemode == "color"){
+//           //   allitems[i].style.color = `#${color.toString(16)}`
+//           // }
+//       }
+//     }
+//     // cont.appendChild(seperator)
+// }
+// // if (cont.offsetHeight < 40){
+// //   cont.style.display = "none"
+// // }else{
+// //   cont.style.display = ""
+// // }
+//   }
+// }, 0);
+// let favheader = React.createElement("div", {class: "header-2RyJ0Y"}, "Favorites")
+// let favseperator = React.createElement("div", {class: "separator-gCa7yv"}, null)
+// favoritelist.push(favseperator)
+// favoritelist.unshift(favheader)
+// console.log(favoritelist)
+// // setTimeout(() => {
+//   res.props.sidebar.props.children.push(React.createElement("div", {class: "fav-cont"}, favoritelist))
+// // }, 10);
+// console.log(res.props.sidebar.props.children)
+// }
+}
 inject(
   "settingssearch",
   SettingsView.prototype,
   'render',
   (_, res) =>{
-    // console.log(powercord.pluginManager.get("bettersettings"))
     const autofocus = this.settings.get("AutoFocus", true)
     const noreset = this.settings.get("noreset", false)
     let settings;
-    setTimeout(() => {
+    create(res)
       settings = document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`)
-      if (settings != null && settings.id != "checked"){
+      // console.log(res.props, document.getElementById("settingssearch"))
+      if (document.getElementById("settingssearch") == null){
         if (noreset == true){
         settingsModule.open(lastsection)
         }
@@ -305,10 +325,12 @@ inject(
           updatenotif.textContent = "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (capital sensitive) or reinstall the plugin\nsorry for the incovinence!"
           document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`).append(updatenotif)
         }
-        search(document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`), 380, "USER_SETTINGS")
-        favorites()
-        disabled()
-        shortcut(lastsection)
+        setTimeout(() => {
+          search(document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`), 380, "USER_SETTINGS")
+          favorites()
+          disabled()
+          shortcut(lastsection)
+        }, 0);
         }
         if (document.querySelector(`[aria-label="GUILD_SETTINGS"]`) == null){
           if (res.props.section != "My Account"){
@@ -318,7 +340,7 @@ inject(
           }
         }
         // console.log(res.props.section)
-    }, 0);
+    // }, 0);
 
     setTimeout(() => {
       settings = document.querySelector(`[aria-label="GUILD_SETTINGS"] .side-8zPYf6`)

@@ -1,7 +1,7 @@
 
 .fav-cont{
     grid-area: 2/1;
-.sup-settings-fav{
+.better-settings-fav{
     color: var(--interactive-normal);
 }
 .sup-settings-fav:hover{
@@ -30,7 +30,7 @@
         background-image: url("https://svgur.com/i/_yk.svg");
         margin-left: -20px;
     }
-    .settingssearch{
+    #settingssearch{
         grid-area: 1/1;
         width: 190px;
         border: 1px solid var(--background-tertiary);

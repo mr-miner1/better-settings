@@ -15,38 +15,47 @@ module.exports = class PluginSettings extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            favsettings: false,
-            badsettings: false,
+            favouriteSettings: false,
+            badSettings: false,
             shortcuts: false,
             tips: false
         };
     }
 
     render() {
-        const { getSetting, toggleSetting, updateSetting } = this.props
+        const { getSetting, updateSetting, toggleSetting } = this.props;
+
         return (
             <div className="BetterSettingsSettings">
                 <SwitchItem
-                    value={this.props.getSetting('AutoFocus', true)}
+                    value={getSetting('AutoFocus', true)}
                     onChange={() => {
-                        this.props.toggleSetting('AutoFocus', true);
+                        toggleSetting('AutoFocus');
                     }}
-                    note="Auto select input on launch">
-                    Auto Focus
+                    note="Automatically focus the search box whenever opening settings">
+                    Auto-Focus
                 </SwitchItem>
                 <SwitchItem
-                    value={this.props.getSetting('noreset')}
+                    value={getSetting('noreset', false)}
                     onChange={(v) => {
-                        this.props.toggleSetting('noreset', v.value);
+                        toggleSetting('noreset');
                     }}
-                    note="Reopen the last settings section you had open">
-                    Dont Reset Settings On Close
+                    note="Re-open the last settings section you had open">
+                    Don't reset settings on close
+                </SwitchItem>
+                <SwitchItem
+                    value={getSetting('pluginsCategory', false)}
+                    onChange={(v) => {
+                        toggleSetting('pluginsCategory');
+                    }}
+                    note="Give plugins their own section in the sidebar">
+                    Separate Plugins Category
                 </SwitchItem>
                 <Category
                     name='Favorites'
                     // description="Customize Your Embeds"
-                    opened={this.state.favsettings}
-                    onChange={() => this.setState({ favsettings: !this.state.favsettings })}>
+                    opened={this.state.favouriteSettings}
+                    onChange={() => this.setState({ favsettings: !this.state.favouriteSettings })}>
                     <TextInput
                         defaultValue={getSetting("favorites", "")}
                         onChange={(v) => {
@@ -75,7 +84,7 @@ module.exports = class PluginSettings extends React.PureComponent {
                         ]}>
                         Display
                     </RadioGroup>
-                    {this.props.getSetting('favoritemode', "ontop") == "color" ?
+                    {getSetting('favoritemode', "ontop") == "color" ?
                         <ColorPickerInput
                             default={parseInt("d4af37", 16)}
                             onChange={
@@ -90,8 +99,8 @@ module.exports = class PluginSettings extends React.PureComponent {
                 <Category
                     name='Hidden'
                     // description="Customize Your Embeds"
-                    opened={this.state.badsettings}
-                    onChange={() => this.setState({ badsettings: !this.state.badsettings })}>
+                    opened={this.state.badSettings}
+                    onChange={() => this.setState({ badsettings: !this.state.badSettings })}>
                     <TextInput
                         defaultValue={getSetting("baddies", "")}
                         onChange={(v) => {
@@ -125,7 +134,7 @@ module.exports = class PluginSettings extends React.PureComponent {
                         ]}>
                         Display
                     </RadioGroup>
-                    {this.props.getSetting("baddiemode", "display") == "color" ?
+                    {getSetting("baddiemode", "display") == "color" ?
                         <ColorPickerInput
                             default={parseInt("dd3a3a", 16)}
                             onChange={
@@ -135,7 +144,7 @@ module.exports = class PluginSettings extends React.PureComponent {
                             Color
                         </ColorPickerInput>
                         : null}
-                    {this.props.getSetting("baddiemode", "display") == "opacity" ?
+                    {getSetting("baddiemode", "display") == "opacity" ?
                         <SliderInput
                             stickToMarkers
                             minValue={0}
@@ -156,7 +165,8 @@ module.exports = class PluginSettings extends React.PureComponent {
                         className="uwu colorStandard-2KCXvj size14-e6ZScH description-3_Ncsb formText-3fs7AJ modeDefault-3a2Ph1">
                         1. Searching $hidden in settings give you a list of all your disabled settings
                         <br></br>
-                        2. Searching supports auto fill, ie: if u searched "Conn" and pressed enter it would open the
+                        2. Searching supports auto fill, ie: if u searched "Conn" and pressed enter it would open
+                        the
                         Connections tab for you
                         <br></br>
                         3. Fact: You are cute 😳
@@ -168,8 +178,8 @@ module.exports = class PluginSettings extends React.PureComponent {
                     opened={this.state.shortcuts}
                     onChange={() => this.setState({ shortcuts: !this.state.shortcuts })}>
                     {/* <SwitchItem
-                     value={this.props.getSetting('shortcut', true)}
-                     onChange={() => {this.props.toggleSetting('shortcut', true);}}
+                     value={getSetting('shortcut', true)}
+                     onChange={() => {toggleSetting('shortcut', true);}}
                      note="Allows you to open settings using a keyboard shortcut">
                      Settings Shortcut [CTRL + SHIFT + S]
                      </SwitchItem> */}
@@ -193,6 +203,6 @@ module.exports = class PluginSettings extends React.PureComponent {
                     </TextInput>
                 </Category>
             </div>
-        )
+        );
     }
 }

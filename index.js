@@ -21,49 +21,78 @@ module.exports = class BetterSettings extends Plugin {
             render: PluginSettings
         });
 
+        console.log(this.entityID);
+
+        // console.log(getModule("aa"));
+
         const SettingsView = await getModule(
-            m => m.displayName == "SettingsView"
+            m => m.displayName === "SettingsView"
         );
+        console.log('SettingsView');
+        console.log(SettingsView.prototype);
+
         const settingsModule = await getModule([ "open", "saveAccountChanges" ]);
 
         let lastsection;
         const thisPlugin = this;
 
         inject(
-            "settingssearch",
+            "bettersettings_settings",
             SettingsView.prototype,
             'render',
             (_, res) => {
+
+                const sidebarItems = res.props.sidebar.props.children;
+                const selectedItem = res.props.sidebar.props.selectedItem;
+
+                console.log("Settings.res");
+                console.log(res);
+                console.log(sidebarItems);
+                console.log(selectedItem);
+
                 const autofocus = this.settings.get("AutoFocus", true);
                 const noreset = this.settings.get("noreset", false);
                 let settings;
 
                 // Push search textbox
-                res.props.sidebar.props.children.unshift(
+                sidebarItems.unshift(
                     React.createElement(SearchTextbox, { placeholderText: Messages.SEARCH })
                 );
+
+                const sidebarHasItem = ((itemName) => { sidebarItems.findIndex((item) => { return item.key === itemName }) - 1; });
+                const isUserSettings = !(sidebarHasItem("changelog") < 0);
+                const isInGuildSettings = !(sidebarHasItem("GUILD_PREMIUM") < 0);
+                const isInChannelSettings = !(sidebarHasItem("OVERVIEW") < 0) && !isInGuildSettings;
 
                 settings = document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`);
 
                 if (document.getElementById("settingssearch") == null) {
-                    if (noreset == true) {
+                    if (noreset === true) {
                         settingsModule.open(lastsection);
                     }
                     setTimeout(() => {
-                        if (autofocus == true) {
+                        if (autofocus === true) {
                             document.getElementById('settingssearch').focus();
                         }
                     }, 1)
-                    if (this.entityID == "Better-Settings") {
+
+                    // Prompt the user to reinstall because of some weird bug with the entity name
+                    if (this.entityID === "Better-Settings") {
+                        // let updatenotif = document.createElement("div");
+                        // let updatenotifclass = document.createAttribute("class");
+                        // updatenotifclass.value = "updatenotif";
+                        // updatenotif.setAttributeNode(updatenotifclass);
+                        // updatenotif.textContent = "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (capital sensitive) or reinstall the plugin\nsorry for the incovinence!";
+
                         let updatenotif = document.createElement("div");
-                        let updatenotifclass = document.createAttribute("class");
-                        updatenotifclass.value = "updatenotif";
-                        updatenotif.setAttributeNode(updatenotifclass);
-                        updatenotif.textContent = "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (capital sensitive) or reinstall the plugin\nsorry for the incovinence!";
+                        updatenotif.classList.add("updatenotif");
+                        updatenotif.textContent = "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (case sensitive) or reinstall the plugin\nsorry for the incovinence!";
+
                         document.querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`).append(updatenotif);
                     }
+
                     setTimeout(() => {
-                        SearchUtil.search(thisPlugin, settingsModule, document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`), 380, "USER_SETTINGS");
+                        SearchUtil.search(thisPlugin, settingsModule, document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`), sidebarItems, "USER_SETTINGS");
                         FavouritesUtil.favourites(thisPlugin);
                         DisabledUtil.disabled(thisPlugin);
                         ShortcutUtil.shortcut(thisPlugin, lastsection);
@@ -71,18 +100,18 @@ module.exports = class BetterSettings extends Plugin {
                 }
 
                 if (document.querySelector(`[aria-label="GUILD_SETTINGS"]`) == null) {
-                    if (res.props.section != "My Account") {
+                    if (res.props.section !== "My Account") {
                         lastsection = res.props.section;
-                    } else if (res.props.section != "OVERVIEW") {
+                    } else if (res.props.section !== "OVERVIEW") {
                         lastsection = res.props.section;
                     }
                 }
 
                 setTimeout(() => {
                     settings = document.querySelector(`[aria-label="GUILD_SETTINGS"] .side-8zPYf6`);
-                    if (settings != null && settings.id != "checked") {
+                    if (settings != null && settings.id !== "checked") {
                         setTimeout(() => {
-                            if (autofocus == true) {
+                            if (autofocus === true) {
                                 document.getElementById('settingssearch').focus();
                             }
                         }, 1);
@@ -95,10 +124,38 @@ module.exports = class BetterSettings extends Plugin {
                 return (res);
             }
         );
+
+        inject(
+            "bettersettings_settingsItems",
+            SettingsView.prototype,
+            'getPredicateSections',
+            (args, items) => {
+
+                // Separate Powercord plugins and give them their own category
+                const updaterItem = items.findIndex((item) => { return item.section === "pc-updater" }) + 1;
+                const separatePluginsCategory = this.settings.get("pluginsCategory", false);
+                console.log(`separatePluginsCategory ${separatePluginsCategory}`);
+
+                // are we somehow running outside of powercord?
+                if (updaterItem >= 0
+                    && separatePluginsCategory) {
+
+                    const pcPluginsCategory = [
+                        { section: "DIVIDER" },
+                        { section: "HEADER", label: "Plugins" },
+                    ];
+
+                    items.splice(updaterItem, 0, ...pcPluginsCategory);
+                }
+
+                return items;
+            }
+        );
     }
 
     pluginWillUnload() {
-        uninject('settingssearch');
+        uninject('bettersettings_settings');
+        uninject('bettersettings_settingsItems');
         powercord.api.settings.unregisterSettings(this.entityID);
     }
 };

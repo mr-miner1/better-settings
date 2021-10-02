@@ -11,7 +11,7 @@ const FavouritesUtil = require('./util/FavouritesUtil');
 const SearchUtil = require('./util/SearchUtil');
 const ShortcutUtil = require('./util/ShortcutUtil');
 
-module.exports = class BetterSettings extends Plugin {
+module.exports = class HelpMe extends Plugin {
     async startPlugin() {
 
         this.loadStylesheet('./index.scss');
@@ -20,6 +20,9 @@ module.exports = class BetterSettings extends Plugin {
             label: this.manifest.name,
             render: PluginSettings
         });
+
+        console.log(this);
+        console.log(`plugins: ${this.settings.get("pluginsCategory")}`);
 
         console.log(this.entityID);
 
@@ -42,16 +45,22 @@ module.exports = class BetterSettings extends Plugin {
             'render',
             (_, res) => {
 
+                console.log("Settings.res");
+                console.log(res);
+
+                if (res === null) return res;
+
+
                 const sidebarItems = res.props.sidebar.props.children;
                 const selectedItem = res.props.sidebar.props.selectedItem;
 
-                console.log("Settings.res");
-                console.log(res);
                 console.log(sidebarItems);
                 console.log(selectedItem);
+                console.log("lastsection");
+                console.log(lastsection);
 
-                const autofocus = this.settings.get("AutoFocus", true);
-                const noreset = this.settings.get("noreset", false);
+                const autofocus = thisPlugin.settings.get("AutoFocus", true);
+                const noreset = thisPlugin.settings.get("noreset", false);
                 let settings;
 
                 // Push search textbox
@@ -59,16 +68,25 @@ module.exports = class BetterSettings extends Plugin {
                     React.createElement(SearchTextbox, { placeholderText: Messages.SEARCH })
                 );
 
-                const sidebarHasItem = ((itemName) => { sidebarItems.findIndex((item) => { return item.key === itemName }) - 1; });
-                const isUserSettings = !(sidebarHasItem("changelog") < 0);
-                const isInGuildSettings = !(sidebarHasItem("GUILD_PREMIUM") < 0);
-                const isInChannelSettings = !(sidebarHasItem("OVERVIEW") < 0) && !isInGuildSettings;
+                const sidebarHasItem = (itemName) => { return sidebarItems.findIndex((item) => { return item.key === itemName }) - 1; };
+                const isUserSettings = sidebarHasItem("changelog") !== -2;
+                const isInGuildSettings = typeof sidebarItems[1].props.children === "string" && !isUserSettings; // funky!
+                const isInChannelSettings = typeof sidebarItems[1].props.children !== "string";
+
+                // ID table:
+                // 0 - user settings
+                // 1 - guild settings
+                // 2 - channel settings
+                // 3 - gulag
+                const sectionID = (isUserSettings ? 0 : (isInGuildSettings ? 1 : (isInChannelSettings ? 2 : 3)));
+
+                console.log(`settingsID: ${sectionID}`);
 
                 settings = document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`);
 
                 if (document.getElementById("settingssearch") == null) {
-                    if (noreset === true) {
-                        settingsModule.open(lastsection);
+                    if (noreset === true && lastsection[sectionID]) {
+                        settingsModule.open(lastsection[sectionID]);
                     }
                     setTimeout(() => {
                         if (autofocus === true) {
@@ -99,11 +117,11 @@ module.exports = class BetterSettings extends Plugin {
                     }, 0);
                 }
 
-                if (document.querySelector(`[aria-label="GUILD_SETTINGS"]`) == null) {
+                if (document.querySelector(`[aria-label="GUILD_SETTINGS"]`) === null) {
                     if (res.props.section !== "My Account") {
-                        lastsection = res.props.section;
+                        lastsection[sectionID] = res.props.section;
                     } else if (res.props.section !== "OVERVIEW") {
-                        lastsection = res.props.section;
+                        lastsection[sectionID] = res.props.section;
                     }
                 }
 
@@ -133,7 +151,11 @@ module.exports = class BetterSettings extends Plugin {
 
                 // Separate Powercord plugins and give them their own category
                 const updaterItem = items.findIndex((item) => { return item.section === "pc-updater" }) + 1;
-                const separatePluginsCategory = this.settings.get("pluginsCategory", false);
+
+                // TODO: idfk how to make this persist
+                //       actually idek why its not persisting this is the same fucking code
+                //       other plugins use
+                const separatePluginsCategory = thisPlugin.settings.get("pluginsCategory", false);
                 console.log(`separatePluginsCategory ${separatePluginsCategory}`);
 
                 // are we somehow running outside of powercord?
@@ -157,5 +179,6 @@ module.exports = class BetterSettings extends Plugin {
         uninject('bettersettings_settings');
         uninject('bettersettings_settingsItems');
         powercord.api.settings.unregisterSettings(this.entityID);
+        console.log(`[shut]: ${this.settings.get("pluginsCategory")}`);
     }
 };

@@ -20,9 +20,6 @@ module.exports = class SearchUtil {
     }
 
     searchFunc(term, item) {
-        // TODO: FUZZY!!
-        // return item.includes(term);
-        console.log(Util);
         return Util.fuzzysearch(term, item);
     }
 

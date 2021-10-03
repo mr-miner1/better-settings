@@ -152,9 +152,6 @@ module.exports = class BetterSettings extends Plugin {
                 // Separate Powercord plugins and give them their own category
                 const updaterItem = items.findIndex((item) => { return item.section === "pc-updater" }) + 1;
 
-                // TODO: idfk how to make this persist
-                //       actually idek why its not persisting this is the same fucking code
-                //       other plugins use
                 const separatePluginsCategory = thisPlugin.settings.get("pluginsCategory", false);
                 console.log(`separatePluginsCategory ${separatePluginsCategory}`);
 

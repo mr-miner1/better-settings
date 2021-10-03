@@ -55,7 +55,7 @@ module.exports = class PluginSettings extends React.PureComponent {
                     name='Favorites'
                     // description="Customize Your Embeds"
                     opened={this.state.favouriteSettings}
-                    onChange={() => this.setState({ favsettings: !this.state.favouriteSettings })}>
+                    onChange={() => this.setState({ favouriteSettings: !this.state.favouriteSettings })}>
                     <TextInput
                         defaultValue={getSetting("favorites", "")}
                         onChange={(v) => {
@@ -100,7 +100,7 @@ module.exports = class PluginSettings extends React.PureComponent {
                     name='Hidden'
                     // description="Customize Your Embeds"
                     opened={this.state.badSettings}
-                    onChange={() => this.setState({ badsettings: !this.state.badSettings })}>
+                    onChange={() => this.setState({ badSettings: !this.state.badSettings })}>
                     <TextInput
                         defaultValue={getSetting("baddies", "")}
                         onChange={(v) => {

@@ -11,7 +11,7 @@ const FavouritesUtil = require('./util/FavouritesUtil');
 const SearchUtil = require('./util/SearchUtil');
 const ShortcutUtil = require('./util/ShortcutUtil');
 
-module.exports = class HelpMe extends Plugin {
+module.exports = class BetterSettings extends Plugin {
     async startPlugin() {
 
         this.loadStylesheet('./index.scss');
@@ -36,7 +36,7 @@ module.exports = class HelpMe extends Plugin {
 
         const settingsModule = await getModule([ "open", "saveAccountChanges" ]);
 
-        let lastsection;
+        let lastsection = {};
         const thisPlugin = this;
 
         inject(

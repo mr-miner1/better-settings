@@ -21,43 +21,64 @@ module.exports = class BetterSettings extends Plugin {
             render: PluginSettings
         });
 
-        console.log(this);
-        console.log(`plugins: ${this.settings.get("pluginsCategory")}`);
-
-        console.log(this.entityID);
-
-        // console.log(getModule("aa"));
+        const log = ((...args) => {
+            // console.log("[BetterSettings]", ...args);
+        });
 
         const SettingsView = await getModule(
             m => m.displayName === "SettingsView"
         );
-        console.log('SettingsView');
-        console.log(SettingsView.prototype);
+        log("[BetterSettings]", 'SettingsView');
+        log("[BetterSettings]", SettingsView.prototype);
 
         const settingsModule = await getModule([ "open", "saveAccountChanges" ]);
 
         let lastsection = {};
         const thisPlugin = this;
 
+        const autoFocus = ((autofocus) => {
+            setTimeout(() => {
+                if (autofocus === true) {
+                    log("[BetterSettings]", "focusedElem");
+                    log("[BetterSettings]", document.querySelector(`[aria-label="USER_SETTINGS"] ${document.activeElement.className}`));
+                    if (document.querySelector(`[aria-label="USER_SETTINGS"] ${document.activeElement.className}`) !== undefined) {
+                        document.getElementById('settingssearch').focus();
+                    }
+                }
+            }, 1);
+        });
+
         inject(
-            "bettersettings_settings",
+            "betterSettings_settingsMount",
+            SettingsView.prototype,
+            'componentDidMount',
+            (args, res) => {
+
+                const autofocus = thisPlugin.settings.get("AutoFocus", true);
+                autoFocus(autofocus);
+
+                return res;
+            }
+        );
+
+        inject(
+            "betterSettings_settings",
             SettingsView.prototype,
             'render',
             (_, res) => {
 
-                console.log("Settings.res");
-                console.log(res);
-
                 if (res === null) return res;
 
+                log("[BetterSettings]", "Settings.res");
+                log("[BetterSettings]", res);
 
                 const sidebarItems = res.props.sidebar.props.children;
                 const selectedItem = res.props.sidebar.props.selectedItem;
 
-                console.log(sidebarItems);
-                console.log(selectedItem);
-                console.log("lastsection");
-                console.log(lastsection);
+                log("[BetterSettings]", sidebarItems);
+                log("[BetterSettings]", selectedItem);
+                log("[BetterSettings]", "lastsection");
+                log("[BetterSettings]", lastsection);
 
                 const autofocus = thisPlugin.settings.get("AutoFocus", true);
                 const noreset = thisPlugin.settings.get("noreset", false);
@@ -80,7 +101,8 @@ module.exports = class BetterSettings extends Plugin {
                 // 3 - gulag
                 const sectionID = (isUserSettings ? 0 : (isInGuildSettings ? 1 : (isInChannelSettings ? 2 : 3)));
 
-                console.log(`settingsID: ${sectionID}`);
+                log("[BetterSettings]", `settingsID: ${sectionID}`);
+                log("[BetterSettings]", res);
 
                 settings = document.querySelector(`[aria-label="USER_SETTINGS"] .side-8zPYf6`);
 
@@ -88,11 +110,7 @@ module.exports = class BetterSettings extends Plugin {
                     if (noreset === true && lastsection[sectionID]) {
                         settingsModule.open(lastsection[sectionID]);
                     }
-                    setTimeout(() => {
-                        if (autofocus === true) {
-                            document.getElementById('settingssearch').focus();
-                        }
-                    }, 1)
+                    // autoFocus(autofocus);
 
                     // Prompt the user to reinstall because of some weird bug with the entity name
                     if (this.entityID === "Better-Settings") {
@@ -117,6 +135,7 @@ module.exports = class BetterSettings extends Plugin {
                     }, 0);
                 }
 
+                // Remember last page (dependant on page)
                 if (document.querySelector(`[aria-label="GUILD_SETTINGS"]`) === null) {
                     if (res.props.section !== "My Account") {
                         lastsection[sectionID] = res.props.section;
@@ -128,12 +147,8 @@ module.exports = class BetterSettings extends Plugin {
                 setTimeout(() => {
                     settings = document.querySelector(`[aria-label="GUILD_SETTINGS"] .side-8zPYf6`);
                     if (settings != null && settings.id !== "checked") {
-                        setTimeout(() => {
-                            if (autofocus === true) {
-                                document.getElementById('settingssearch').focus();
-                            }
-                        }, 1);
-                        SearchUtil.search(thisPlugin, settingsModule, document.querySelector(`[aria-label="GUILD_SETTINGS"] .side-8zPYf6`), 190, "GUILD_SETTINGS");
+                        // autoFocus(autofocus);
+                        SearchUtil.search(thisPlugin, settingsModule, settings, 190, "GUILD_SETTINGS");
                         FavouritesUtil.favourites(thisPlugin);
                         DisabledUtil.disabled(thisPlugin);
                     }
@@ -144,19 +159,17 @@ module.exports = class BetterSettings extends Plugin {
         );
 
         inject(
-            "bettersettings_settingsItems",
+            "betterSettings_settingsItems",
             SettingsView.prototype,
             'getPredicateSections',
             (args, items) => {
 
                 // Separate Powercord plugins and give them their own category
                 const updaterItem = items.findIndex((item) => { return item.section === "pc-updater" }) + 1;
-
                 const separatePluginsCategory = thisPlugin.settings.get("pluginsCategory", false);
-                console.log(`separatePluginsCategory ${separatePluginsCategory}`);
 
                 // are we somehow running outside of powercord?
-                if (updaterItem >= 0
+                if (updaterItem > 0
                     && separatePluginsCategory) {
 
                     const pcPluginsCategory = [
@@ -173,9 +186,9 @@ module.exports = class BetterSettings extends Plugin {
     }
 
     pluginWillUnload() {
-        uninject('bettersettings_settings');
-        uninject('bettersettings_settingsItems');
+        uninject('betterSettings_settings');
+        uninject('betterSettings_settingsItems');
+        uninject('betterSettings_settingsMount');
         powercord.api.settings.unregisterSettings(this.entityID);
-        console.log(`[shut]: ${this.settings.get("pluginsCategory")}`);
     }
 };

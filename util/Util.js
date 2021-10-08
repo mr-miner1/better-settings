@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = class Util {
 
     // Fuzzy search algorithm

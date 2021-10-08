@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = class ShortcutUtil {
     static shortcut(plugin, open) {
         let shortcutsettings = plugin.settings.get("shortcutname", "Better Settings");

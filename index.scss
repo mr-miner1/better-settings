@@ -1,14 +1,5 @@
-
 .fav-cont {
   grid-area: 2/1;
-
-  .better-settings-fav {
-    color: var(--interactive-normal);
-  }
-
-  .sup-settings-fav:hover {
-    color: var(--interactive-hover) !important;
-  }
 }
 
 .side-8zPYf6 {
@@ -47,18 +38,16 @@
     transition: 0.2s;
     border-radius: 4px;
 
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       color: var(--text-normal);
     }
 
-    &:focus + .settingsicon, &:hover + .settingsicon {
+    &:focus + .settingsicon,
+    &:hover + .settingsicon {
       opacity: 1;
     }
   }
-}
-
-.better-settings-fav {
-  color: var(--favorite-setting-color) !important;
 }
 
 .BetterSettingsSettings {

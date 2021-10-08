@@ -106,7 +106,7 @@ module.exports = class PluginSettings extends React.PureComponent {
             pressed enter it would open the Connections tab for you - broken
             currently
             <br></br>
-            3. RightClicking a setting on the sidebar opens a cool context menu
+            3. Right clicking a setting on the sidebar opens a cool context menu
             <br></br>
             4. Fact: You are cute 😳
           </div>

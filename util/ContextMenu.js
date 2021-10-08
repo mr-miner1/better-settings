@@ -6,7 +6,7 @@ const { open } = require("powercord/modal");
 const { getModule } = require("powercord/webpack");
 let target;
 module.exports = class CustomContextMenu {
-  static yes(res, args, plugin, settingsModule) {
+  static create(res, args, plugin, settingsModule) {
     let itemidlist = {};
     for (let i in res) {
       if (res[i].key != parseInt(res[i].key)) {
@@ -114,6 +114,11 @@ module.exports = class CustomContextMenu {
               { id: "better-settings-context-menu" },
               menu
             );
+            for (let i in res) {
+              if (res[i].key == target) {
+                plugin.settings.set("contexttargetname", res[i].props.children);
+              }
+            }
             plugin.settings.set("contexttarget", target);
             contextMenu.openContextMenu(args, () => menucont);
           };

@@ -238,7 +238,7 @@ module.exports = class BetterSettings extends Plugin {
       SettingsView.prototype,
       "render",
       (args, res) => {
-        CustomContextMenu.yes(
+        CustomContextMenu.create(
           res.props.sidebar.props.children,
           SettingsView,
           thisPlugin,

@@ -18,47 +18,6 @@ module.exports = class CustomizeModal extends React.PureComponent {
     super(props);
   }
   render() {
-    let itemid = powercord.pluginManager
-      .get("better-settings")
-      .settings.get("contexttarget");
-    itemid =
-      itemid === "MyAccount"
-        ? "My Account"
-        : itemid === "ProfileCustomization"
-        ? "User Profile"
-        : itemid === "PrivacynSafety"
-        ? "Privacy & Safety"
-        : itemid === "AuthorizedApps"
-        ? "Authorized Apps"
-        : itemid === "DiscordNitro"
-        ? "Discord Nitro"
-        : itemid === "NitroServerBoost"
-        ? "Server Boost"
-        : itemid === "LibraryInventory"
-        ? "Gift Inventory"
-        : itemid === "VoicenVideo"
-        ? "Voice & Video"
-        : itemid === "TextnImages"
-        ? "Text & Images"
-        : itemid === "StreamerMode"
-        ? "Streamer Mode"
-        : itemid === "GameActivity"
-        ? "Activity Status"
-        : itemid === "HypeSquadOnline"
-        ? "HypeSquad Online"
-        : itemid === "changelog"
-        ? "Change Log"
-        : itemid === "Windows"
-        ? "Windows Settings"
-        : itemid === "pc-moduleManager-themes"
-        ? "Themes"
-        : itemid === "pc-updater"
-        ? "Updater"
-        : itemid === "pc-general"
-        ? "General Settings"
-        : itemid === "pc-moduleManager-plugins"
-        ? "Plugins"
-        : itemid;
     return (
       <Modal className="powercord-text">
         <Modal.Header>
@@ -81,9 +40,9 @@ module.exports = class CustomizeModal extends React.PureComponent {
               textcont = v;
             }}
             // note={''}
-            placeholder={itemid} //prettier-ignore
+            placeholder={powercord.pluginManager.get("better-settings").settings.get("contexttargetname")} //prettier-ignore
           >
-            Text Content
+            Custom Name
           </TextInput>
 
           <SliderInput
@@ -102,14 +61,19 @@ module.exports = class CustomizeModal extends React.PureComponent {
 
         <Modal.Footer>
           <Button
-            color={Button.Colors.BLUE}
+            color={Button.Colors.GREEN}
             // disabled={this.state.alias == "" && this.state.text == ""}
             onClick={() => {
               if (color != undefined) {
                 Customize.createColor(color);
               }
               if (textcont != undefined) {
-                Customize.createText(textcont, itemid);
+                Customize.createText(
+                  textcont,
+                  powercord.pluginManager
+                    .get("better-settings")
+                    .settings.get("contexttargetname")
+                );
               }
               if (opacity != undefined) {
                 Customize.createOpacity(opacity);
@@ -121,6 +85,22 @@ module.exports = class CustomizeModal extends React.PureComponent {
             }}
           >
             Save
+          </Button>
+          <Button
+            color={Button.Colors.RED}
+            // disabled={this.state.alias == "" && this.state.text == ""}
+            onClick={() => {
+              Customize.createColor(10070709);
+              Customize.createText(powercord.pluginManager.get("better-settings").settings.get("contexttargetname")); //prettier-ignore
+              Customize.createOpacity(100);
+              textcont = undefined;
+              color = undefined;
+              opacity = undefined;
+              closeModal();
+            }}
+            style={{ marginRight: "8px" }}
+          >
+            Reset
           </Button>
           <Button
             color={Button.Colors.TRANSPARENT}

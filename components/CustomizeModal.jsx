@@ -88,7 +88,7 @@ module.exports = class CustomizeModal extends React.PureComponent {
               className={"better-settings-checkbox"}
               for={"hidden-checkbox"}
             >
-              <label for={"hidden-checkbox"}>Hidden</label>
+              <label for={"hidden-checkbox"}>Hide</label>
               <input type={"checkbox"} id={"hidden-checkbox"}></input>
             </label>
           </div>

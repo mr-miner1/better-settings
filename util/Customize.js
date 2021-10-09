@@ -72,4 +72,56 @@ module.exports = class Customize {
       }, 0);
     }
   }
+  static addFavorite(value, contextname) {
+    contextname = contextname.toUpperCase();
+    let favorites = powercord.pluginManager.get("better-settings").settings.get("favorites", ""); //prettier-ignore
+    favorites = favorites.toUpperCase();
+    favorites = favorites.split(", ");
+    if (favorites.indexOf(contextname) == -1 && value == true) {
+      favorites.push(contextname);
+      favorites = favorites.join(", ");
+      powercord.pluginManager.get("better-settings").settings.set("favorites", favorites); //prettier-ignore
+    } else if (favorites.indexOf(contextname) != -1 && value == false) {
+      favorites.splice(favorites.indexOf(contextname), 1);
+      favorites = favorites.join(", ");
+      powercord.pluginManager.get("better-settings").settings.set("favorites", favorites) //prettier-ignore
+    }
+  }
+  static setFavorite(val) {
+    document.getElementById("favorite-checkbox").checked = val;
+    document
+      .querySelector(`[for="favorite-checkbox"]`)
+      .addEventListener("change", (e) => {
+        let ifchecked = e.target.checked;
+        if (ifchecked == true) {
+          document.getElementById("hidden-checkbox").checked = false;
+        }
+      });
+  }
+  static addDisabled(value, contextname) {
+    contextname = contextname.toUpperCase();
+    let disabled = powercord.pluginManager.get("better-settings").settings.get("baddies", ""); //prettier-ignore
+    disabled = disabled.toUpperCase();
+    disabled = disabled.split(", ");
+    if (disabled.indexOf(contextname) == -1 && value == true) {
+      disabled.push(contextname);
+      disabled = disabled.join(", ");
+      powercord.pluginManager.get("better-settings").settings.set("baddies", disabled); //prettier-ignore
+    } else if (disabled.indexOf(contextname) != -1 && value == false) {
+      disabled.splice(disabled.indexOf(contextname), 1);
+      disabled = disabled.join(", ");
+      powercord.pluginManager.get("better-settings").settings.set("baddies", disabled) //prettier-ignore
+    }
+  }
+  static setDisabled(val) {
+    document.getElementById("hidden-checkbox").checked = val;
+    document
+      .querySelector(`[for="hidden-checkbox"]`)
+      .addEventListener("change", (e) => {
+        let ifchecked = e.target.checked;
+        if (ifchecked == true) {
+          document.getElementById("favorite-checkbox").checked = false;
+        }
+      });
+  }
 };

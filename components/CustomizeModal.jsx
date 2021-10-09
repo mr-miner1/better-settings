@@ -18,6 +18,33 @@ module.exports = class CustomizeModal extends React.PureComponent {
     super(props);
   }
   render() {
+    let contextname = powercord.pluginManager.get("better-settings").settings.get("contexttargetname"); //prettier-ignore
+    let favorites = powercord.pluginManager.get("better-settings").settings.get("favorites", ""); //prettier-ignore
+    let hidden = powercord.pluginManager.get("better-settings").settings.get("baddies", ""); //prettier-ignore
+    favorites = favorites.toUpperCase();
+    hidden = hidden.toUpperCase();
+    if (favorites.indexOf(contextname.toUpperCase()) != -1) {
+      setTimeout(() => {
+        Customize.setFavorite(true);
+        Customize.setDisabled(false);
+      }, 0);
+    } else if (hidden.indexOf(contextname.toUpperCase()) != -1) {
+      setTimeout(() => {
+        Customize.setFavorite(false);
+        Customize.setDisabled(true);
+      }, 0);
+    } else {
+      setTimeout(() => {
+        Customize.setFavorite(false);
+        Customize.setDisabled(false);
+      }, 0);
+    }
+    // if (favorites.indexOf(contextname.toUpperCase()) == -1) {
+    //   setTimeout(() => {
+    //     Customize.setFavorite(false);
+    //     // Customize.setDisabled(true);
+    //   }, 0);
+    // }
     return (
       <Modal className="powercord-text">
         <Modal.Header>
@@ -40,11 +67,36 @@ module.exports = class CustomizeModal extends React.PureComponent {
               textcont = v;
             }}
             // note={''}
-            placeholder={powercord.pluginManager.get("better-settings").settings.get("contexttargetname")} //prettier-ignore
+            placeholder={contextname}
           >
             Custom Name
           </TextInput>
-
+          <div className="better-settings-checkbox-cont">
+            <label
+              className={"better-settings-checkbox"}
+              for={"favorite-checkbox"}
+            >
+              <label for={"favorite-checkbox"}>Favorite</label>
+              <input
+                type={"checkbox"}
+                id={"favorite-checkbox"}
+                // checked={favorites.indexOf(contextname.toUpperCase()) != -1}
+                // value={"on"}
+              ></input>
+            </label>
+            <label
+              className={"better-settings-checkbox"}
+              for={"hidden-checkbox"}
+            >
+              <label for={"hidden-checkbox"}>Hidden</label>
+              <input type={"checkbox"} id={"hidden-checkbox"}></input>
+            </label>
+          </div>
+          <div
+            className={"divider-3573oO dividerDefault-3rvLe-"}
+            style={{ marginBottom: "20px" }}
+          ></div>
+          {/* hi */}
           <SliderInput
             minValue={0}
             maxValue={100}
@@ -68,16 +120,19 @@ module.exports = class CustomizeModal extends React.PureComponent {
                 Customize.createColor(color);
               }
               if (textcont != undefined) {
-                Customize.createText(
-                  textcont,
-                  powercord.pluginManager
-                    .get("better-settings")
-                    .settings.get("contexttargetname")
-                );
+                Customize.createText(textcont, contextname);
               }
               if (opacity != undefined) {
                 Customize.createOpacity(opacity);
               }
+              Customize.addFavorite(
+                document.getElementById("favorite-checkbox").checked,
+                contextname
+              );
+              Customize.addDisabled(
+                document.getElementById("hidden-checkbox").checked,
+                contextname
+              );
               textcont = undefined;
               color = undefined;
               opacity = undefined;
@@ -93,6 +148,8 @@ module.exports = class CustomizeModal extends React.PureComponent {
               Customize.createColor(10070709);
               Customize.createText(powercord.pluginManager.get("better-settings").settings.get("contexttargetname")); //prettier-ignore
               Customize.createOpacity(100);
+              Customize.addFavorite(false, contextname);
+              Customize.addDisabled(false, contextname);
               textcont = undefined;
               color = undefined;
               opacity = undefined;

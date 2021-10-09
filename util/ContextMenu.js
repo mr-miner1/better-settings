@@ -50,51 +50,39 @@ module.exports = class CustomContextMenu {
           // delete itemidlist[null];
           res[i].props.onContextMenu = (args) => {
             target = args.target.getAttribute("data-item-id");
+            let openid = target;
+            openid =
+              openid === "MyAccount"
+                ? "My Account"
+                : openid === "ProfileCustomization"
+                ? "Profile Customization"
+                : openid === "PrivacynSafety"
+                ? "Privacy & Safety"
+                : openid === "AuthorizedApps"
+                ? "Authorized Apps"
+                : openid === "DiscordNitro"
+                ? "Discord Nitro"
+                : openid === "NitroServerBoost"
+                ? "Nitro Server Boost"
+                : openid === "LibraryInventory"
+                ? "Library Inventory"
+                : openid === "VoicenVideo"
+                ? "Voice & Video"
+                : openid === "TextnImages"
+                ? "Text & Images"
+                : openid === "StreamerMode"
+                ? "Streamer Mode"
+                : openid === "GameActivity"
+                ? "Game Activity"
+                : openid === "HypeSquadOnline"
+                ? "HypeSquad Online"
+                : openid;
             let items = [];
-            // items.push({
-            //   type: "checkbox",
-            //   name: "Add Favorite",
-            //   id: "better-settings-favorite",
-            //   // onChange: this.setState
-            // });
-            // items.push({
-            //   type: "checkbox",
-            //   name: "Hide",
-            //   id: "better-settings-hide",
-            //   color: "colorDanger",
-            // });
             items.push({
               type: "button",
               name: "Open",
               id: "better-settings-open",
               onClick: () => {
-                let openid = target;
-                openid =
-                  openid === "MyAccount"
-                    ? "My Account"
-                    : openid === "ProfileCustomization"
-                    ? "Profile Customization"
-                    : openid === "PrivacynSafety"
-                    ? "Privacy & Safety"
-                    : openid === "AuthorizedApps"
-                    ? "Authorized Apps"
-                    : openid === "DiscordNitro"
-                    ? "Discord Nitro"
-                    : openid === "NitroServerBoost"
-                    ? "Nitro Server Boost"
-                    : openid === "LibraryInventory"
-                    ? "Library Inventory"
-                    : openid === "VoicenVideo"
-                    ? "Voice & Video"
-                    : openid === "TextnImages"
-                    ? "Text & Images"
-                    : openid === "StreamerMode"
-                    ? "Streamer Mode"
-                    : openid === "GameActivity"
-                    ? "Game Activity"
-                    : openid === "HypeSquadOnline"
-                    ? "HypeSquad Online"
-                    : openid;
                 settingsModule.open(openid);
               },
             });
@@ -115,8 +103,15 @@ module.exports = class CustomContextMenu {
               menu
             );
             for (let i in res) {
-              if (res[i].key == target) {
+              // console.log(res[i].key, openid, res[i].props.children);
+              if (res[i].key == openid) {
                 plugin.settings.set("contexttargetname", res[i].props.children);
+                if (typeof res[i].props.children == "object") {
+                  plugin.settings.set(
+                    "contexttargetname",
+                    res[i].props.children.props.children[0]
+                  );
+                }
               }
             }
             plugin.settings.set("contexttarget", target);

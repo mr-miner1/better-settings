@@ -1,3 +1,6 @@
+// :root {
+//   --rotate: 0deg;
+// }
 .fav-cont {
   grid-area: 2/1;
 }
@@ -94,4 +97,88 @@
   background-image: url("https://discord.com/assets/7dfacc7529214e45b9e3cfd50979edea.svg");
   color: var(--text-normal);
   text-align: center;
+}
+
+[aria-label="USER_SETTINGS"] .contentRegion-3nDuYy {
+  flex: 1 1 100%;
+}
+[aria-label="USER_SETTINGS"] .contentColumn-2hrIYH,
+[aria-label="USER_SETTINGS"] .customColumn-Rb6toI,
+[aria-label="USER_SETTINGS"] .sidebarScrollable-1qPI87 + .content-1rPSz4,
+[aria-label="USER_SETTINGS"] .customScroller-26gWhv > div {
+  max-width: 95%;
+}
+.sidebar-CFHs9e {
+  padding: 30px 6px 60px 10px;
+}
+.better-settings-checkbox-cont {
+  display: flex;
+  justify-content: center;
+}
+.better-settings-checkbox {
+  label,
+  button {
+    // font-size: 20px;
+    font-family: var(--font-display);
+    margin-right: 8px;
+    color: var(--text-normal);
+    font-size: 16px;
+  }
+  input {
+    // opacity: 0;
+    // transform: scale(0);
+    transform: scale(0.1);
+  }
+  input::before {
+    transform: scale(10) translateY(2px);
+    position: relative;
+    display: block;
+    width: 13px;
+    height: 13px;
+    border: 1.25px solid #ed4245;
+    border-radius: 2px;
+    content: "";
+    background: url("https://svgur.com/i/azk.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+    background-color: var(--background-secondary);
+    transition: 0.6s;
+    animation: better-settings-checkbox2 0.6s forwards;
+  }
+  input:checked::before {
+    animation: better-settings-checkbox 0.6s forwards;
+    transform: scale(10);
+    border-color: #3ba55d;
+    background: url("https://svgur.com/i/b04.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+    background-color: var(--background-secondary);
+  }
+  margin-bottom: 0px;
+  background-color: var(--deprecated-text-input-bg);
+  padding: 13px;
+  border-radius: 5px;
+  margin-right: 20px;
+  width: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@keyframes better-settings-checkbox {
+  0% {
+    transform: scale(10) rotate(0deg) translateY(-1px);
+  }
+  100% {
+    transform: scale(10) rotate(-360deg) translateY(-1px);
+  }
+}
+@keyframes better-settings-checkbox2 {
+  0% {
+    transform: scale(10) rotate(0deg) translateY(-1px);
+  }
+  100% {
+    transform: scale(10) rotate(360deg) translateY(-1px);
+  }
 }

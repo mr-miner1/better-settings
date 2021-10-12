@@ -8,28 +8,10 @@ const { item, header, separator } = getModule(
 
 module.exports = class FavouritesUtil {
   static favourites(plugin) {
-    // const color = plugin.settings.get("color", parseInt("d4af37", 16));
-    const favoritemode = plugin.settings.get("favoritemode", "ontop");
-
-    // if (color !== undefined) {
-    //   document.querySelector(
-    //     `[aria-label*="_SETTINGS"]`
-    //   ).style.cssText = `--favorite-setting-color: #${color.toString(16)}`;
-    // } else {
-    //   document.querySelector(
-    //     `[aria-label*="_SETTINGS"]`
-    //   ).style.cssText = `--favorite-setting-color: gold`;
-    // }
     const favoritesettings = plugin.settings.get("favorites", "");
 
     let allitems = document.getElementsByClassName(item);
     let favorites = favoritesettings.split(", ");
-
-    // const cont = React.createElement("div", { className: "fav-cont" },
-    //     React.createElement("div", { className: header }, "Favourites")
-    // );
-
-    // let separator = React.createElement("div", { className: separator });
 
     let contheader = document.createElement("div");
     contheader.textContent = "Favourites";
@@ -44,8 +26,7 @@ module.exports = class FavouritesUtil {
 
     if (
       document.getElementsByClassName("side-8zPYf6")[0].classList[1] !=
-        "favorited" &&
-      favoritemode == "ontop"
+      "favorited"
     ) {
       document.getElementsByClassName("side-8zPYf6")[0].appendChild(cont);
       document.getElementsByClassName("side-8zPYf6")[0].className +=
@@ -55,9 +36,7 @@ module.exports = class FavouritesUtil {
       for (let q of favorites) {
         if (allitems[i].textContent.toUpperCase() == q.toUpperCase()) {
           allitems[i].classList += " better-settings-fav";
-          if (favoritemode == "ontop") {
-            cont.appendChild(allitems[i]);
-          }
+          cont.appendChild(allitems[i]);
         }
       }
       cont.appendChild(separatorElem);
@@ -67,5 +46,17 @@ module.exports = class FavouritesUtil {
     } else {
       cont.style.display = "";
     }
+  }
+  static favoriteOnSave(element) {
+    let cont = document.getElementsByClassName("fav-cont")[0];
+    if (cont.style[0] == "display") {
+      // favorites(powercord.pluginManager.get("better-settings"));
+      cont.style.display = "";
+    }
+    cont.appendChild(element);
+    document.querySelector(".fav-cont .separator-gCa7yv").remove();
+    let separatorElem = document.createElement("div");
+    separatorElem.classList.add(separator);
+    cont.appendChild(separatorElem);
   }
 };

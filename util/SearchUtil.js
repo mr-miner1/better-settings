@@ -167,15 +167,21 @@ module.exports = class SearchUtil {
       let done = false;
       if (e.key === "Enter") {
         let itemid;
+        let items = document.getElementsByClassName("item-PXvHYJ");
         for (let i = 0; i < items.length; i++) {
+          console.log(
+            items[i],
+            items[i].style.cssText.indexOf("display: none")
+          );
           if (
-            "display: none".indexOf(items[i].style.cssText) === 0 &&
+            items[i].style.cssText.indexOf("display: none") == -1 &&
             items[i].classList[2] === "better-settings-fav" &&
             name === "USER_SETTINGS"
           ) {
             itemid = items[i].getAttribute("data-item-id");
             // console.log(itemid);
             itemid = this.prototype.getItemId(itemid);
+            console.log(itemid);
             settingsModule.open(itemid);
             done = true;
             break;
@@ -183,13 +189,13 @@ module.exports = class SearchUtil {
         }
         for (let i = 0; i < items.length; i++) {
           if (
-            "display: none".indexOf(items[i].style.cssText) === 0 &&
+            items[i].style.cssText.indexOf("display: none") == -1 &&
             items[i].classList[2] !== "better-settings-fav" &&
             done === false &&
             name === "USER_SETTINGS"
           ) {
             itemid = items[i].getAttribute("data-item-id");
-            // console.log(itemid);
+            console.log(itemid);
             itemid = this.prototype.getItemId(itemid);
             settingsModule.open(itemid);
             break;

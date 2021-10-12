@@ -1,4 +1,5 @@
 /* eslint-disable */
+const FavouritesUtil = require("./FavouritesUtil");
 module.exports = class Customize {
   static createColor(color) {
     let itemidlist = powercord.pluginManager.get("better-settings").settings.get("itemidlist"); // prettier-ignore
@@ -81,10 +82,20 @@ module.exports = class Customize {
       favorites.push(contextname);
       favorites = favorites.join(", ");
       powercord.pluginManager.get("better-settings").settings.set("favorites", favorites); //prettier-ignore
+      // setInterva(() => {
+      let contexttarget = powercord.pluginManager
+        .get("better-settings")
+        .settings.get("contexttarget");
+      contexttarget = document.querySelector(
+        `[data-item-id="${contexttarget}"]`
+      );
+      FavouritesUtil.favoriteOnSave(contexttarget);
+      // }, 0);
     } else if (favorites.indexOf(contextname) != -1 && value == false) {
       favorites.splice(favorites.indexOf(contextname), 1);
       favorites = favorites.join(", ");
       powercord.pluginManager.get("better-settings").settings.set("favorites", favorites) //prettier-ignore
+      // FavouritesUtil.favourites(powercord.pluginManager.get("better-settings"));
     }
   }
   static setFavorite(val) {

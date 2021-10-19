@@ -38,6 +38,10 @@ module.exports = class CustomContextMenu {
               ? "GameActivity"
               : itemid === "Hypesquad Online"
               ? "HypesquadOnline"
+              : itemid === "Developer Options"
+              ? "DeveloperOptions"
+              : itemid == "Hotspot Options"
+              ? "HotspotOptions"
               : itemid;
           iteminfo.push("");
           iteminfo.push(100);
@@ -76,6 +80,10 @@ module.exports = class CustomContextMenu {
                 ? "Game Activity"
                 : openid === "HypeSquadOnline"
                 ? "HypeSquad Online"
+                : openid === "DeveloperOptions"
+                ? "Developer Options"
+                : openid == "HotspotOptions"
+                ? "Hotspot Options"
                 : openid;
             let items = [];
             items.push({

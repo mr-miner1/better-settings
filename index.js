@@ -139,12 +139,6 @@ module.exports = class BetterSettings extends Plugin {
 
           // Prompt the user to reinstall because of some weird bug with the entity name
           if (this.entityID === "Better-Settings") {
-            // let updatenotif = document.createElement("div");
-            // let updatenotifclass = document.createAttribute("class");
-            // updatenotifclass.value = "updatenotif";
-            // updatenotif.setAttributeNode(updatenotifclass);
-            // updatenotif.textContent = "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (capital sensitive) or reinstall the plugin\nsorry for the incovinence!";
-
             let updatenotif = document.createElement("div");
             updatenotif.classList.add("updatenotif");
             updatenotif.textContent =
@@ -156,18 +150,23 @@ module.exports = class BetterSettings extends Plugin {
           }
 
           setTimeout(() => {
-            SearchUtil.search(
-              thisPlugin,
-              settingsModule,
-              document.querySelector(
-                `[aria-label="USER_SETTINGS"] .side-8zPYf6`
-              ),
-              sidebarItems,
-              "USER_SETTINGS"
+            settings = document.querySelector(
+              `[aria-label="USER_SETTINGS"] .side-8zPYf6`
             );
-            FavouritesUtil.favourites(thisPlugin);
-            DisabledUtil.disabled(thisPlugin);
-            ShortcutUtil.shortcut(thisPlugin, lastsection);
+            if (settings != null && settings.id !== "checked") {
+              SearchUtil.search(
+                thisPlugin,
+                settingsModule,
+                document.querySelector(
+                  `[aria-label="USER_SETTINGS"] .side-8zPYf6`
+                ),
+                sidebarItems,
+                "USER_SETTINGS"
+              );
+              FavouritesUtil.favourites(thisPlugin);
+              DisabledUtil.disabled(thisPlugin);
+              ShortcutUtil.shortcut(thisPlugin, lastsection);
+            }
           }, 0);
         }
 
@@ -238,15 +237,25 @@ module.exports = class BetterSettings extends Plugin {
       SettingsView.prototype,
       "render",
       (args, res) => {
-        CustomContextMenu.create(
-          res.props.sidebar.props.children,
-          SettingsView,
-          thisPlugin,
-          settingsModule
-        );
-        Customize.setColor();
-        Customize.setText();
-        Customize.setOpacity();
+        const sidebarHasItem = (itemName) => {
+          return (
+            res.props.sidebar.props.children.findIndex((item) => {
+              return item.key === itemName;
+            }) - 1
+          );
+        };
+        const isUserSettings = sidebarHasItem("changelog") !== -2;
+        if (isUserSettings) {
+          CustomContextMenu.create(
+            res.props.sidebar.props.children,
+            SettingsView,
+            thisPlugin,
+            settingsModule
+          );
+          Customize.setColor();
+          Customize.setText();
+          Customize.setOpacity();
+        }
         return res;
       }
     );

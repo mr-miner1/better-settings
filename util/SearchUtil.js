@@ -122,9 +122,11 @@ module.exports = class SearchUtil {
         if (document.getElementsByClassName("noresults")[0] !== undefined) {
           document.getElementsByClassName("noresults")[0].remove();
         }
-        document.querySelectorAll(".separator-gCa7yv")[
-          document.querySelectorAll(".header-2RyJ0Y").length + 1
-        ].style = "display:none";
+        if (name === "USER_SETTINGS") {
+          document.querySelectorAll(".separator-gCa7yv")[
+            document.querySelectorAll(".header-2RyJ0Y").length + 1
+          ].style = "display:none";
+        }
       } else {
         for (
           let i = 0;
@@ -165,14 +167,10 @@ module.exports = class SearchUtil {
     });
     document.getElementById("settingssearch").addEventListener("keyup", (e) => {
       let done = false;
-      if (e.key === "Enter") {
+      if (e.key === "Enter" && name == "USER_SETTINGS") {
         let itemid;
         let items = document.getElementsByClassName("item-PXvHYJ");
         for (let i = 0; i < items.length; i++) {
-          console.log(
-            items[i],
-            items[i].style.cssText.indexOf("display: none")
-          );
           if (
             items[i].style.cssText.indexOf("display: none") == -1 &&
             items[i].classList[2] === "better-settings-fav" &&
@@ -181,7 +179,6 @@ module.exports = class SearchUtil {
             itemid = items[i].getAttribute("data-item-id");
             // console.log(itemid);
             itemid = this.prototype.getItemId(itemid);
-            console.log(itemid);
             settingsModule.open(itemid);
             done = true;
             break;
@@ -195,7 +192,6 @@ module.exports = class SearchUtil {
             name === "USER_SETTINGS"
           ) {
             itemid = items[i].getAttribute("data-item-id");
-            console.log(itemid);
             itemid = this.prototype.getItemId(itemid);
             settingsModule.open(itemid);
             break;

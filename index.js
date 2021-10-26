@@ -6,6 +6,8 @@ const {
   getModule,
   i18n: { Messages },
 } = require("powercord/webpack");
+const InstalledProduct = require("../pc-moduleManager/components/parts/InstalledProduct.jsx");
+const Settings = require("../pc-settings/index.js");
 
 const PluginSettings = require("./components/Settings");
 const SearchTextbox = require("./components/SearchTextbox");
@@ -16,6 +18,7 @@ const SearchUtil = require("./util/SearchUtil");
 const ShortcutUtil = require("./util/ShortcutUtil");
 const CustomContextMenu = require("./util/ContextMenu");
 const Customize = require("./util/Customize");
+const bd = require("./util/BD-like-settings");
 
 module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
@@ -259,12 +262,59 @@ module.exports = class BetterSettings extends Plugin {
         return res;
       }
     );
+    if (this.settings.get("bd-like-settings")) {
+      bd.begin();
+      inject(
+        "betterSettings_productRenderPrePatch",
+        InstalledProduct.prototype,
+        "render",
+        bd.productRenderPrePatch,
+        true
+      );
+      inject(
+        "betterSettings_productRenderPatch",
+        InstalledProduct.prototype,
+        "render",
+        bd.productRenderPatch
+      );
+      inject(
+        "betterSettings_productRenderFooterPatch",
+        InstalledProduct.prototype,
+        "renderFooter",
+        bd.productRenderFooterPatch
+      );
+      inject(
+        "betterSettings_makeSectionPatch",
+        Settings.prototype,
+        "_makeSection",
+        bd.makeSectionPatch
+      );
+      inject(
+        "betterSettings_getPredicateSectionsPatch",
+        SettingsView.prototype,
+        "getPredicateSections",
+        bd.getPredicateSectionsPatch
+      );
+      inject(
+        "betterSettings_openSettings",
+        this.settingsModule,
+        "open",
+        bd.openPatch,
+        true
+      );
+    }
   }
   pluginWillUnload() {
     uninject("betterSettings_settings");
     uninject("betterSettings_settingsItems");
     uninject("betterSettings_settingsMount");
     uninject("betterSettings_contextmenu");
+    uninject("betterSettings_productRenderPrePatch");
+    uninject("betterSettings_productRenderPatch");
+    uninject("betterSettings_productRenderFooterPatch");
+    uninject("betterSettings_makeSectionPatch");
+    uninject("betterSettings_getPredicateSectionsPatch");
+    uninject("betterSettings_openSettings");
     powercord.api.settings.unregisterSettings(this.entityID);
   }
 };

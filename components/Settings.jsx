@@ -2,15 +2,11 @@
 const { React } = require("powercord/webpack");
 const {
   TabBar,
-  SelectInput,
   Category,
   SwitchItem,
-  SliderInput,
   TextInput,
-  RadioGroup,
-  ColorPickerInput,
 } = require("powercord/components/settings");
-
+let note = "";
 module.exports = class PluginSettings extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -19,6 +15,7 @@ module.exports = class PluginSettings extends React.PureComponent {
       badSettings: false,
       shortcuts: false,
       tips: false,
+      bd: false,
     };
   }
 
@@ -93,6 +90,40 @@ module.exports = class PluginSettings extends React.PureComponent {
           </TextInput>
         </Category>
         <Category
+          name="BD Like Settings"
+          description="orignally made by Оocrop#4420 now maintained by me"
+          opened={this.state.bd}
+          onChange={() => this.setState({ bd: !this.state.bd })}
+        >
+          <SwitchItem
+            value={getSetting("bd-like-settings", false)}
+            onChange={() => {
+              toggleSetting("bd-like-settings");
+              note = "- restart required";
+            }}
+            note="Enable BD Like Settings"
+          >
+            {`BD Like Settings` + note}
+          </SwitchItem>
+          {this.props.getSetting("bd-like-settings", false) == true ? (
+            <div className="bs-bd-text title-31JmR4">
+              Keep Rendering the following
+            </div>
+          ) : null}
+          {this.props.getSetting("bd-like-settings", false) == true
+            ? Object.keys(powercord.api.settings.tabs)
+                .filter((p) => !p.startsWith("pc-"))
+                .map((p) => (
+                  <SwitchItem
+                    value={getSetting(p, false)}
+                    onChange={() => toggleSetting(p)}
+                  >
+                    {powercord.api.settings.tabs[p].label}
+                  </SwitchItem>
+                ))
+            : null}
+        </Category>
+        <Category
           name="Tips & Tricks"
           description=""
           opened={this.state.tips}
@@ -103,8 +134,7 @@ module.exports = class PluginSettings extends React.PureComponent {
             disabled settings
             <br></br>
             2. Searching supports auto fill, ie: if u searched "Conn" and
-            pressed enter it would open the Connections tab for you - broken
-            currently
+            pressed enter it would open the Connections tab for you
             <br></br>
             3. Right clicking a setting on the sidebar opens a cool context menu
             <br></br>

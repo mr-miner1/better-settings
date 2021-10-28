@@ -2,7 +2,7 @@
 const { React } = require("powercord/webpack");
 const {
   Tooltip,
-  Icons: { GitHub, Bin, Sync, Person },
+  Icons: { GitHub, Bin, Sync, Discord },
 } = require("powercord/components");
 
 const { shell } = require("electron");
@@ -45,7 +45,7 @@ module.exports = ({ url, pluginpath, server, id }) => {
       {server != "none" ? (
         <Tooltip text="Support Server">
           <a id="better-settings-server" href={server} target="_blank">
-            <Person />
+            <Discord />
           </a>
         </Tooltip>
       ) : null}

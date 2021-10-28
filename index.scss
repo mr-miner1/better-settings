@@ -174,46 +174,54 @@
   margin-bottom: 20px;
 }
 #better-settings-github {
-  height: 23px;
-  width: 23px;
+  height: 22px;
+  width: 22px;
   display: block;
   color: white;
 }
 #better-settings-open {
   display: block;
   background-color: transparent;
-  img {
-    height: 25px;
-    width: 25px;
+  height: 25px;
+  width: 25px;
+  padding: 0px;
+  display: block;
+  color: white;
+  path {
+    d: path(
+      "M 23.0956 9.8 H 21 v -2.1 c 0 -1.1594 -0.9406 -2.1 -2.1 -2.1 H 11.9 l -2.8 -2.8 H 2.1 C 0.9406 2.8 0 3.7406 0 4.9 v 12.6 c 0 1.1594 0.9406 2.1 2.1 2.1 h 17.5 c 0.7219 0 1.3956 -0.3719 1.7806 -0.9888 l 3.4956 -5.6 c 0.875 -1.3956 -0.1312 -3.2113 -1.7806 -3.2113 z M 2.1 5.1625 c 0 -0.1444 0.1181 -0.2625 0.2625 -0.2625 h 5.8669 l 2.8 2.8 H 18.6375 c 0.1444 0 0.2625 0.1181 0.2625 0.2625 v 1.8375 H 6.65 c -0.735 0 -1.4175 0.385 -1.7981 1.015 L 2.1 15.3737 z m 17.5 12.3375 H 3.15 l 3.3775 -5.6 H 23.1 z"
+    );
   }
 }
 #better-settings-delete {
-  display: block;
   background-color: transparent;
+  height: 25px;
+  width: 25px;
   padding: 0px;
-  img {
-    height: 21px;
-    width: 21px;
-    // transition-duration: 0.6s;
+  display: block;
+  color: white;
+  svg {
+    display: flex;
+    path {
+      transition: 0.2s;
+    }
   }
 }
 #better-settings-server {
-  display: block;
   background-color: transparent;
-  img {
-    height: 21px;
-    width: 21px;
-  }
+  height: 25px;
+  width: 25px;
+  padding: 0px;
+  display: block;
+  color: white;
 }
 #better-settings-remount {
-  display: block;
   background-color: transparent;
-  margin-left: 0px;
+  height: 25px;
+  width: 25px;
   padding: 0px;
-  img {
-    height: 20px;
-    width: 20px;
-  }
+  display: block;
+  color: white;
 }
 .quickactions {
   display: flex;

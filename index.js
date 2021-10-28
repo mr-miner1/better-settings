@@ -8,6 +8,7 @@ const {
 } = require("powercord/webpack");
 const InstalledProduct = require("../pc-moduleManager/components/parts/InstalledProduct.jsx");
 const Settings = require("../pc-settings/index.js");
+const { open: openModal } = require("powercord/modal");
 
 const PluginSettings = require("./components/Settings");
 const SearchTextbox = require("./components/SearchTextbox");
@@ -19,6 +20,8 @@ const ShortcutUtil = require("./util/ShortcutUtil");
 const CustomContextMenu = require("./util/ContextMenu");
 const Customize = require("./util/Customize");
 const bd = require("./util/BD-like-settings");
+const QuickActions = require("./util/quickactions");
+const ChangeLogModal = require("./components/ChangeLog");
 
 module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
@@ -231,7 +234,6 @@ module.exports = class BetterSettings extends Plugin {
 
           items.splice(updaterItem, 0, ...pcPluginsCategory);
         }
-
         return items;
       }
     );
@@ -262,7 +264,7 @@ module.exports = class BetterSettings extends Plugin {
         return res;
       }
     );
-    if (this.settings.get("bd-like-settings")) {
+    if (this.settings.get("qa_settings") == true) {
       bd.begin();
       inject(
         "betterSettings_productRenderPrePatch",
@@ -297,12 +299,37 @@ module.exports = class BetterSettings extends Plugin {
       );
       inject(
         "betterSettings_openSettings",
-        this.settingsModule,
+        settingsModule,
         "open",
         bd.openPatch,
         true
       );
     }
+    inject(
+      "betterSettings_quickActionsButtons",
+      InstalledProduct.prototype,
+      "render",
+      QuickActions.buttons
+    );
+    inject(
+      "betterSettings_quickActionsStart",
+      InstalledProduct.prototype,
+      "render",
+      QuickActions.begin,
+      true
+    );
+    inject(
+      "betterSettings_changelog",
+      SettingsView.prototype,
+      "render",
+      (_, res) => {
+        if (this.settings.get("changelog", false) != true) {
+          openModal(ChangeLogModal);
+          this.settings.set("changelog", true);
+        }
+        return res;
+      }
+    );
   }
   pluginWillUnload() {
     uninject("betterSettings_settings");
@@ -315,6 +342,9 @@ module.exports = class BetterSettings extends Plugin {
     uninject("betterSettings_makeSectionPatch");
     uninject("betterSettings_getPredicateSectionsPatch");
     uninject("betterSettings_openSettings");
+    uninject("betterSettings_quickActionsButtons");
+    uninject("betterSettings_quickActionsStart");
+    uninject("betterSettings_changelog");
     powercord.api.settings.unregisterSettings(this.entityID);
   }
 };

@@ -50,7 +50,7 @@ module.exports = class bd {
   static makeSectionPatch(_, res) {
     if (
       res.section.startsWith("pc-") ||
-      _this.settings.get("hideSections") === false ||
+      _this.settings.get("bd-like-settings", false) === false ||
       _this.settings.get(res.section) ||
       _this.openedSettings === res.section
     )
@@ -95,7 +95,7 @@ module.exports = class bd {
       (this.props.plugin.entityID.startsWith("pc-") ||
         _this.settings.get(this.props.plugin.entityID))
     ) {
-      this.props.hasSettings = false;
+      this.props.hasSettings = true;
       this.props.goToSettings = () => _this.settingsModule.open(key);
       return [];
     }

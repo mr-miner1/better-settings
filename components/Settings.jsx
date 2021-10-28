@@ -1,12 +1,18 @@
 /* eslint-disable */
-const { React } = require("powercord/webpack");
 const {
-  TabBar,
+  React,
+  getModule,
+  getModuleByDisplayName,
+} = require("powercord/webpack");
+const {
   Category,
   SwitchItem,
   TextInput,
 } = require("powercord/components/settings");
 let note = "";
+
+const { tabBar, tabBarItem } = getModule(["tabBar", "tabBarItem"], false);
+const TabBar = getModuleByDisplayName("TabBar", false);
 module.exports = class PluginSettings extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -16,131 +22,163 @@ module.exports = class PluginSettings extends React.PureComponent {
       shortcuts: false,
       tips: false,
       bd: false,
+      tab: "General",
+      qa: false,
     };
   }
-
+  generalSettings() {
+    const { getSetting, updateSetting, toggleSetting } = this.props;
+    if (this.state.tab == "General") {
+      return (
+        <div>
+          <SwitchItem
+            value={getSetting("AutoFocus", true)}
+            onChange={() => {
+              toggleSetting("AutoFocus");
+            }}
+            note="Automatically focus the search box whenever opening settings"
+          >
+            Auto-Focus
+          </SwitchItem>
+          <SwitchItem
+            value={getSetting("noreset", false)}
+            onChange={(v) => {
+              toggleSetting("noreset");
+            }}
+            note="Re-open the last settings section you had open"
+          >
+            Don't reset settings on close
+          </SwitchItem>
+          <Category
+            name="Favorites"
+            // description="Customize Your Embeds"
+            opened={this.state.favouriteSettings}
+            onChange={() =>
+              this.setState({
+                favouriteSettings: !this.state.favouriteSettings,
+              })
+            }
+          >
+            <TextInput
+              defaultValue={getSetting("favorites", "")}
+              onChange={(v) => {
+                updateSetting("favorites", v);
+              }}
+              note={'seperate arguements with ", "'}
+              placeholder={"My Account, Plugins, Better Settings"}
+            >
+              Favorites List
+            </TextInput>
+          </Category>
+          <Category
+            name="Hidden"
+            // description="Customize Your Embeds"
+            opened={this.state.badSettings}
+            onChange={() =>
+              this.setState({ badSettings: !this.state.badSettings })
+            }
+          >
+            <TextInput
+              defaultValue={getSetting("baddies", "")}
+              onChange={(v) => {
+                updateSetting("baddies", v);
+              }}
+              note={'seperate arguements with ", "'}
+              placeholder={"My Account, Plugins, Better Settings"}
+            >
+              Hidden List
+            </TextInput>
+          </Category>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <SwitchItem
+            value={getSetting("pluginsCategory", false)}
+            onChange={(v) => {
+              toggleSetting("pluginsCategory");
+            }}
+            note="Give plugins their own section in the sidebar"
+          >
+            Separate Plugins Category
+          </SwitchItem>
+          <Category
+            name="Quick Actions"
+            // description="orignally made by Оocrop#4420 now maintained by me"
+            opened={this.state.qa}
+            onChange={() => this.setState({ qa: !this.state.qa })}
+          >
+            <SwitchItem
+              value={getSetting("qa_settings", true)}
+              onChange={() => {
+                toggleSetting("qa_settings");
+              }}
+              note="renders settings in the plugin card itself"
+            >
+              Settings
+            </SwitchItem>
+            <SwitchItem
+              value={getSetting("qa_github", true)}
+              onChange={() => {
+                toggleSetting("qa_github");
+              }}
+              note="redirects you to the plugin repo"
+            >
+              GitHub
+            </SwitchItem>
+            <SwitchItem
+              value={getSetting("qa_folder", true)}
+              onChange={() => {
+                toggleSetting("qa_folder");
+              }}
+              note="opens the plugin folder"
+            >
+              Open Folder
+            </SwitchItem>
+            <SwitchItem
+              value={getSetting("qa_delete", true)}
+              onChange={() => {
+                toggleSetting("qa_delete");
+              }}
+              note="deletes the plugin from inside discord"
+            >
+              Delete
+            </SwitchItem>
+            <SwitchItem
+              value={getSetting("qa_remount", false)}
+              onChange={() => {
+                toggleSetting("qa_remount");
+              }}
+              note="reloads the plugin"
+            >
+              Reload
+            </SwitchItem>
+          </Category>
+        </div>
+      );
+    }
+  }
   render() {
     const { getSetting, updateSetting, toggleSetting } = this.props;
 
     return (
       <div className="BetterSettingsSettings">
-        <SwitchItem
-          value={getSetting("AutoFocus", true)}
-          onChange={() => {
-            toggleSetting("AutoFocus");
-          }}
-          note="Automatically focus the search box whenever opening settings"
+        <TabBar
+          className={["bs-settings-tab-bar", tabBar].filter(Boolean).join(" ")}
+          selectedItem={this.state.tab}
+          onItemSelect={(item) => this.setState({ tab: item, section: null })}
+          look={TabBar.Looks.BRAND}
+          type={TabBar.Types.TOP}
         >
-          Auto-Focus
-        </SwitchItem>
-        <SwitchItem
-          value={getSetting("noreset", false)}
-          onChange={(v) => {
-            toggleSetting("noreset");
-          }}
-          note="Re-open the last settings section you had open"
-        >
-          Don't reset settings on close
-        </SwitchItem>
-        <SwitchItem
-          value={getSetting("pluginsCategory", false)}
-          onChange={(v) => {
-            toggleSetting("pluginsCategory");
-          }}
-          note="Give plugins their own section in the sidebar"
-        >
-          Separate Plugins Category
-        </SwitchItem>
-        <Category
-          name="Favorites"
-          // description="Customize Your Embeds"
-          opened={this.state.favouriteSettings}
-          onChange={() =>
-            this.setState({ favouriteSettings: !this.state.favouriteSettings })
-          }
-        >
-          <TextInput
-            defaultValue={getSetting("favorites", "")}
-            onChange={(v) => {
-              updateSetting("favorites", v);
-            }}
-            note={'seperate arguements with ", "'}
-            placeholder={"My Account, Plugins, Better Settings"}
-          >
-            Favorites List
-          </TextInput>
-        </Category>
-        <Category
-          name="Hidden"
-          // description="Customize Your Embeds"
-          opened={this.state.badSettings}
-          onChange={() =>
-            this.setState({ badSettings: !this.state.badSettings })
-          }
-        >
-          <TextInput
-            defaultValue={getSetting("baddies", "")}
-            onChange={(v) => {
-              updateSetting("baddies", v);
-            }}
-            note={'seperate arguements with ", "'}
-            placeholder={"My Account, Plugins, Better Settings"}
-          >
-            Hidden List
-          </TextInput>
-        </Category>
-        <Category
-          name="BD Like Settings"
-          description="orignally made by Оocrop#4420 now maintained by me"
-          opened={this.state.bd}
-          onChange={() => this.setState({ bd: !this.state.bd })}
-        >
-          <SwitchItem
-            value={getSetting("bd-like-settings", false)}
-            onChange={() => {
-              toggleSetting("bd-like-settings");
-              note = "- restart required";
-            }}
-            note="Enable BD Like Settings"
-          >
-            {`BD Like Settings` + note}
-          </SwitchItem>
-          {this.props.getSetting("bd-like-settings", false) == true ? (
-            <div className="bs-bd-text title-31JmR4">
-              Keep Rendering the following
-            </div>
-          ) : null}
-          {this.props.getSetting("bd-like-settings", false) == true
-            ? Object.keys(powercord.api.settings.tabs)
-                .filter((p) => !p.startsWith("pc-"))
-                .map((p) => (
-                  <SwitchItem
-                    value={getSetting(p, false)}
-                    onChange={() => toggleSetting(p)}
-                  >
-                    {powercord.api.settings.tabs[p].label}
-                  </SwitchItem>
-                ))
-            : null}
-        </Category>
-        <Category
-          name="Tips & Tricks"
-          description=""
-          opened={this.state.tips}
-          onChange={() => this.setState({ tips: !this.state.tips })}
-        >
-          <div className="uwu colorStandard-2KCXvj size14-e6ZScH description-3_Ncsb formText-3fs7AJ modeDefault-3a2Ph1">
-            1. Searching $hidden in settings give you a list of all your
-            disabled settings
-            <br></br>
-            2. Searching supports auto fill, ie: if u searched "Conn" and
-            pressed enter it would open the Connections tab for you
-            <br></br>
-            3. Right clicking a setting on the sidebar opens a cool context menu
-            <br></br>
-            4. Fact: You are cute 😳
-          </div>
-        </Category>
+          <TabBar.Item className={tabBarItem} id="General">
+            General
+          </TabBar.Item>
+          <TabBar.Item className={tabBarItem} id="Plugins">
+            Plugins
+          </TabBar.Item>
+        </TabBar>
+        {this.generalSettings()}
       </div>
     );
   }

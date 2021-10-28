@@ -173,3 +173,80 @@
   font-size: 17px;
   margin-bottom: 20px;
 }
+#better-settings-github {
+  height: 23px;
+  width: 23px;
+  display: block;
+  color: white;
+}
+#better-settings-open {
+  display: block;
+  background-color: transparent;
+  img {
+    height: 25px;
+    width: 25px;
+  }
+}
+#better-settings-delete {
+  display: block;
+  background-color: transparent;
+  padding: 0px;
+  img {
+    height: 21px;
+    width: 21px;
+    // transition-duration: 0.6s;
+  }
+}
+#better-settings-server {
+  display: block;
+  background-color: transparent;
+  img {
+    height: 21px;
+    width: 21px;
+  }
+}
+#better-settings-remount {
+  display: block;
+  background-color: transparent;
+  margin-left: 0px;
+  padding: 0px;
+  img {
+    height: 20px;
+    width: 20px;
+  }
+}
+.quickactions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button,
+  a {
+    margin: 4px 6px 4px 6px;
+    filter: brightness(0.9);
+  }
+}
+.powercord-product-footer [aria-label="Settings"] {
+  display: block;
+  color: white;
+  padding: 0px;
+  margin: 7px 6px 4px 6px;
+  svg {
+    height: 25px;
+    width: 25px;
+  }
+}
+.powercord-product-footer {
+  margin-top: 5px;
+  margin-bottom: -15px;
+}
+.bs-settings-tab-bar {
+  margin-bottom: 20px;
+}
+.bd-cl-content {
+  margin: 15px 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+  font-family: var(--font-primary);
+}

@@ -20,7 +20,7 @@ const ShortcutUtil = require("./util/ShortcutUtil");
 const CustomContextMenu = require("./util/ContextMenu");
 const Customize = require("./util/Customize");
 const bd = require("./util/BD-like-settings");
-const QuickActions = require("./util/quickactions");
+const QuickActions = require("./util/QuickActions");
 const ChangeLogModal = require("./components/ChangeLog");
 
 module.exports = class BetterSettings extends Plugin {

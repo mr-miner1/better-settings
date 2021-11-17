@@ -20,11 +20,13 @@ const ShortcutUtil = require("./util/ShortcutUtil");
 const CustomContextMenu = require("./util/ContextMenu");
 const Customize = require("./util/Customize");
 const bd = require("./util/BD-like-settings");
-const QuickActions = require("./util/quickactions");
+const QuickActions = require("./util/QuickActions");
 const ChangeLogModal = require("./components/ChangeLog");
+const Themes = require("./util/ThemeSettings");
 
 module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
+    console.log("g");
     this.loadStylesheet("./index.scss");
     powercord.api.settings.registerSettings(this.entityID, {
       category: this.entityID,
@@ -330,6 +332,7 @@ module.exports = class BetterSettings extends Plugin {
         return res;
       }
     );
+    Themes.run("here");
   }
   pluginWillUnload() {
     uninject("betterSettings_settings");

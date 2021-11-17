@@ -10,9 +10,10 @@ const {
   TextInput,
 } = require("powercord/components/settings");
 let note = "";
-
+let times = 0;
 const { tabBar, tabBarItem } = getModule(["tabBar", "tabBarItem"], false);
 const TabBar = getModuleByDisplayName("TabBar", false);
+const Themes = require("../util/ThemeSettings");
 module.exports = class PluginSettings extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -29,6 +30,7 @@ module.exports = class PluginSettings extends React.PureComponent {
   generalSettings() {
     const { getSetting, updateSetting, toggleSetting } = this.props;
     if (this.state.tab == "General") {
+      times = 0;
       return (
         <div>
           <SwitchItem
@@ -91,7 +93,8 @@ module.exports = class PluginSettings extends React.PureComponent {
           </Category>
         </div>
       );
-    } else {
+    } else if (this.state.tab == "Plugins") {
+      times = 0;
       return (
         <div>
           <SwitchItem
@@ -157,11 +160,23 @@ module.exports = class PluginSettings extends React.PureComponent {
           </Category>
         </div>
       );
+    } else {
+      let renderlist = getSetting("renderlist");
+      // for (let i of renderlist) {
+      // }
+      times += 1;
+      if (times == 1) {
+        Themes.run("settings");
+        times = -1;
+      }
+      return React.createElement(
+        "div",
+        { className: "bd-theme-settings" },
+        renderlist
+      );
     }
   }
   render() {
-    const { getSetting, updateSetting, toggleSetting } = this.props;
-
     return (
       <div className="BetterSettingsSettings">
         <TabBar
@@ -176,6 +191,9 @@ module.exports = class PluginSettings extends React.PureComponent {
           </TabBar.Item>
           <TabBar.Item className={tabBarItem} id="Plugins">
             Plugins
+          </TabBar.Item>
+          <TabBar.Item className={tabBarItem} id="Themes">
+            Themes
           </TabBar.Item>
         </TabBar>
         {this.generalSettings()}

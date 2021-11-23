@@ -78,8 +78,8 @@ module.exports = class CustomContextMenu {
                 ? "Streamer Mode"
                 : openid === "GameActivity"
                 ? "Game Activity"
-                : openid === "HypeSquadOnline"
-                ? "HypeSquad Online"
+                : openid === "HypesquadOnline"
+                ? "Hypesquad Online"
                 : openid === "DeveloperOptions"
                 ? "Developer Options"
                 : openid == "HotspotOptions"
@@ -111,14 +111,10 @@ module.exports = class CustomContextMenu {
               menu
             );
             for (let i in res) {
-              // console.log(res[i].key, openid, res[i].props.children);
               if (res[i].key == openid) {
                 plugin.settings.set("contexttargetname", res[i].props.children);
                 if (typeof res[i].props.children == "object") {
-                  plugin.settings.set(
-                    "contexttargetname",
-                    res[i].props.children.props.children[0]
-                  );
+                  plugin.settings.set("contexttargetname", res[i].props.id);
                 }
               }
             }
@@ -142,9 +138,6 @@ module.exports = class CustomContextMenu {
         delete plugin.settings.get("itemidlist")[i];
       }
       setTimeout(() => {
-        // console.log(
-        //   plugin.settings.get("itemidlist")[i][2] != itemidlist[i][2]
-        // );
         if (plugin.settings.get("itemidlist")[i][2] != itemidlist[i][2]) {
           count += 1;
           if (count > 17) {
@@ -156,6 +149,5 @@ module.exports = class CustomContextMenu {
         }
       }, 0);
     }
-    // console.log(plugin.settings.get("itemidlist"));
   }
 };

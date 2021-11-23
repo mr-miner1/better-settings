@@ -39,14 +39,14 @@ Hide any setting you dont use or dont want to see
 Prevent discord from resetting what setting you were on (server settings not supported)
 <img src="https://i.imgur.com/Oj6L88D.gif">
 
-## Modules
+### QuickActions
 
-### BD Like Settings
+Adds quick buttons for plugins that allow you to do many things
 
-###### Plugin Originally by [Oocrop](https://github.com/Oocrop), now maintained by me
+1. Open plugin settings
+2. Open Github repo
+3. Open plugin folder
+4. Reload/Remount plugin
+5. Delete plugin
 
-#### make plugin settings similar to how they are on BetterDiscord
-
-#### stops settings from rendering on the sidebar but instead renders them in the plugins tab
-
-<img src="https://i.imgur.com/3qNtJ0F.gif">
+   <img src="https://i.imgur.com/rOSLtHp.png">

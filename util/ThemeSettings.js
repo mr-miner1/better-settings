@@ -12,12 +12,12 @@ const {
   SwitchItem,
   TextInput,
 } = require("powercord/components/settings");
-const { Card } = require("powercord/components");
+const ThemeCard = require("../components/ThemeCard");
 module.exports = class Themes {
   static run(where) {
     let switchitem;
     let input;
-    let catrenderlist = [];
+    let cardrenderlist = [];
     for (let [name, theme] of powercord.styleManager.themes.entries()) {
       if (theme.manifest.themesettings != null) {
         let themepath = theme.entityPath;
@@ -122,9 +122,7 @@ module.exports = class Themes {
                   defaultValue: settings.value,
                   placeholder: settings.placeholder,
                   onChange: (m) => {
-                    // settings.props.value = m;
                     settings.value = m;
-                    // input.props.value = m;
                     settingsobj[i] = settings.value;
                     writeobj[i].value = settings.value;
                     fs.writeFileSync(
@@ -133,16 +131,9 @@ module.exports = class Themes {
                       (err) => {}
                     );
 
-                    // let themestyle = document.getElementById(`theme-${name}`);
-                    // themestyle.classList = "";
-                    // if (objsize == 1) {
-                    // themestyle.textContent += `:root {`;
-                    // }
                     for (const c in settingsobj) {
                       document.body.style.setProperty(c, settings.value);
                     }
-                    // themestyle.classList += ` ${i}`;
-                    // themestyle.textContent += `}`;
                   },
                 });
 
@@ -171,31 +162,19 @@ module.exports = class Themes {
             }
 
             if (renderlist.length == objsize) {
-              let cat = React.createElement(
-                Category,
+              let card = React.createElement(
+                ThemeCard,
                 {
-                  name: name,
-                  opened: powercord.pluginManager
-                    .get("better-settings")
-                    .settings.get(name + "-category", false),
-                  onChange: () => {
-                    // cat.props.opened = !cat.props.opened;
-                    powercord.pluginManager
-                      .get("better-settings")
-                      .settings.set(name + "-category", !cat.props.opened);
-                    powercord.pluginManager.remount("better-settings");
-                  },
-                  onClick: () => {
-                    // console.log("no");
-                  },
+                  theme_name: name,
+                  render_list: renderlist,
                 },
                 renderlist
               );
-              if (where == "here") {
-                catrenderlist.push(cat);
+              if (where == "index") {
+                cardrenderlist.push(card);
                 powercord.pluginManager
                   .get("better-settings")
-                  .settings.set("renderlist", catrenderlist);
+                  .settings.set("renderlist", cardrenderlist);
               }
             }
           } catch (err) {

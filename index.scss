@@ -1,6 +1,3 @@
-:root {
-  $uwu: var(--uwu);
-}
 .fav-cont {
   grid-area: 2/1;
 }
@@ -25,7 +22,7 @@
     height: 15px;
     width: 15px;
     opacity: 0.7;
-    background-image: url("https://svgur.com/i/_yk.svg");
+    background-image: url("https://mr-miner1.github.io/better-settings/assests/search.svg");
     margin-left: -20px;
   }
 
@@ -102,8 +99,7 @@
   display: flex;
   justify-content: center;
 }
-.better-settings-checkbox,
-.better-settings-switch {
+.better-settings-checkbox {
   label,
   button {
     // font-size: 20px;
@@ -126,7 +122,7 @@
     border: 1.25px solid #ed4245;
     border-radius: 2px;
     content: "";
-    background: url("https://svgur.com/i/azk.svg");
+    background: url("https://mr-miner1.github.io/better-settings/assests/disabled.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 10px;
@@ -138,7 +134,7 @@
     animation: better-settings-checkbox 0.6s forwards;
     transform: scale(10);
     border-color: #3ba55d;
-    background: url("https://svgur.com/i/b04.svg");
+    background: url("https://mr-miner1.github.io/better-settings/assests/enabled.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 12px;
@@ -153,13 +149,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.better-settings-switch {
-  width: auto;
-  display: block;
-  margin: 0px;
-  border: 0px;
-  background-color: transparent;
 }
 @keyframes better-settings-checkbox {
   0% {
@@ -245,7 +234,7 @@
   display: block;
   color: white;
   padding: 0px;
-  margin: 7px 6px 4px 6px;
+  margin: 7px 6px 4px 0px;
   svg {
     height: 25px;
     width: 25px;
@@ -317,7 +306,41 @@
     transition: 0.3s;
   }
 }
-// .bs-input input {
-//   font-size: var(--input);
-//   color: var(--input);
-// }
+.bs-theme-card {
+  background-color: var(--background-secondary-alt);
+  border-radius: 8px;
+  margin: 20px;
+  padding: 15px;
+  color: var(--text-normal);
+  .card-content {
+    margin-top: 20px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .card-title {
+      font-size: 18px;
+      font-family: var(--font-display);
+    }
+    .card-button {
+      // background-color: var(--background-tertiary);
+      color: white;
+      // border-radius: 100%;
+      background-color: transparent;
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+  .card-separator {
+    margin: 10px 0px;
+    height: 1px;
+    background-color: var(--background-modifier-accent);
+    width: 100%;
+  }
+}
+.sidebar-CFHs9e {
+  width: var(--input);
+}

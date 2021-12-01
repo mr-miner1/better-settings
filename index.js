@@ -26,7 +26,6 @@ const Themes = require("./util/ThemeSettings");
 
 module.exports = class BetterSettings extends Plugin {
   async startPlugin() {
-    console.log("g");
     this.loadStylesheet("./index.scss");
     powercord.api.settings.registerSettings(this.entityID, {
       category: this.entityID,
@@ -332,7 +331,7 @@ module.exports = class BetterSettings extends Plugin {
         return res;
       }
     );
-    Themes.run("here");
+    Themes.run("index");
   }
   pluginWillUnload() {
     uninject("betterSettings_settings");

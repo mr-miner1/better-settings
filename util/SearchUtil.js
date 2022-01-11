@@ -51,7 +51,7 @@ module.exports = class SearchUtil {
       let input, value, items;
       input = document.getElementById("settingssearch");
       value = input.value.toLowerCase();
-      items = document.getElementsByClassName("item-PXvHYJ");
+      items = document.getElementsByClassName("item-3XjbnG");
 
       let resultsCount = 0;
 
@@ -79,10 +79,10 @@ module.exports = class SearchUtil {
       if (displaycount === 0) {
         for (
           let i = 0;
-          i < document.querySelectorAll(".header-2RyJ0Y").length;
+          i < document.querySelectorAll(".header-2Kx1US").length;
           i++
         ) {
-          document.querySelectorAll(".header-2RyJ0Y")[i].style =
+          document.querySelectorAll(".header-2Kx1US")[i].style =
             "display: none;";
         }
         if (document.getElementsByClassName("noresults")[0] === undefined) {
@@ -94,56 +94,56 @@ module.exports = class SearchUtil {
         }
         for (
           let i = 0;
-          i < document.querySelectorAll(".separator-gCa7yv").length;
+          i < document.querySelectorAll(".separator-2wx7h6").length;
           i++
         ) {
-          document.querySelectorAll(".separator-gCa7yv")[i].style =
+          document.querySelectorAll(".separator-2wx7h6")[i].style =
             "display:none";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelector(".socialLinks-3jqNFy").style = "display:none";
-          document.querySelector(".info-1VyQPT").style = "display:none";
+          document.querySelector(".socialLinks-2DELRE").style = "display:none";
+          document.querySelector(".info-1sUqUG").style = "display:none";
         }
       } else if (displaycount < 4) {
         for (
           let i = 0;
-          i < document.querySelectorAll(".header-2RyJ0Y").length;
+          i < document.querySelectorAll(".header-2Kx1US").length;
           i++
         ) {
-          document.querySelectorAll(".header-2RyJ0Y")[i].style =
+          document.querySelectorAll(".header-2Kx1US")[i].style =
             "display: none;";
-          document.querySelectorAll(".separator-gCa7yv")[i].style =
+          document.querySelectorAll(".separator-2wx7h6")[i].style =
             "display: none;";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelector(".socialLinks-3jqNFy").style = "display:block";
-          document.querySelector(".info-1VyQPT").style = "display:block";
+          document.querySelector(".socialLinks-2DELRE").style = "display:block";
+          document.querySelector(".info-1sUqUG").style = "display:block";
         }
         if (document.getElementsByClassName("noresults")[0] !== undefined) {
           document.getElementsByClassName("noresults")[0].remove();
         }
         if (name === "USER_SETTINGS") {
-          document.querySelectorAll(".separator-gCa7yv")[
-            document.querySelectorAll(".header-2RyJ0Y").length + 1
+          document.querySelectorAll(".separator-2wx7h6")[
+            document.querySelectorAll(".header-2Kx1US").length + 1
           ].style = "display:none";
         }
       } else {
         for (
           let i = 0;
-          i < document.querySelectorAll(".header-2RyJ0Y").length;
+          i < document.querySelectorAll(".header-2Kx1US").length;
           i++
         ) {
-          document.querySelectorAll(".header-2RyJ0Y")[i].style =
+          document.querySelectorAll(".header-2Kx1US")[i].style =
             "display:block";
-          document.querySelectorAll(".separator-gCa7yv")[i].style =
+          document.querySelectorAll(".separator-2wx7h6")[i].style =
             "display:block";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelectorAll(".separator-gCa7yv")[
-            document.querySelectorAll(".header-2RyJ0Y").length + 1
+          document.querySelectorAll(".separator-2wx7h6")[
+            document.querySelectorAll(".header-2Kx1US").length + 1
           ].style = "display:block";
-          document.querySelector(".socialLinks-3jqNFy").style = "display:block";
-          document.querySelector(".info-1VyQPT").style = "display:block";
+          document.querySelector(".socialLinks-2DELRE").style = "display:block";
+          document.querySelector(".info-1sUqUG").style = "display:block";
         }
         if (document.getElementsByClassName("noresults")[0] !== undefined) {
           document.getElementsByClassName("noresults")[0].remove();
@@ -151,7 +151,7 @@ module.exports = class SearchUtil {
       }
       if (value === "$hidden") {
         let showelements = document.getElementsByClassName(
-          "better-settings-bad"
+          "better-settings-hidden"
         );
         for (let i = 0; i < showelements.length; i++) {
           showelements[
@@ -169,7 +169,7 @@ module.exports = class SearchUtil {
       let done = false;
       if (e.key === "Enter" && name == "USER_SETTINGS") {
         let itemid;
-        let items = document.getElementsByClassName("item-PXvHYJ");
+        let items = document.getElementsByClassName("item-3XjbnG");
         for (let i = 0; i < items.length; i++) {
           if (
             items[i].style.cssText.indexOf("display: none") == -1 &&
@@ -177,7 +177,6 @@ module.exports = class SearchUtil {
             name === "USER_SETTINGS"
           ) {
             itemid = items[i].getAttribute("data-item-id");
-            // console.log(itemid);
             itemid = this.prototype.getItemId(itemid);
             settingsModule.open(itemid);
             done = true;
@@ -205,7 +204,7 @@ module.exports = class SearchUtil {
     //search
     let input = document.getElementById("settingssearch");
     let value = input.value.toLowerCase();
-    let items = document.getElementsByClassName("item-PXvHYJ");
+    let items = document.getElementsByClassName("item-3XjbnG");
 
     let resultsCount = 0;
 
@@ -227,17 +226,17 @@ module.exports = class SearchUtil {
 
     for (let i = 0; i < items.length; i++) {
       if ("display: none".indexOf(items[i].style.cssText) === 0) {
-        // document.querySelectorAll(".side-8zPYf6")[0].style.opacity = "100";
+        // document.querySelectorAll(".side-2ur1Qk")[0].style.opacity = "100";
         displaycount += 1;
       }
     }
     if (displaycount === 0) {
       for (
         let i = 0;
-        i < document.querySelectorAll(".header-2RyJ0Y").length;
+        i < document.querySelectorAll(".header-2Kx1US").length;
         i++
       ) {
-        document.querySelectorAll(".header-2RyJ0Y")[i].style = "display: none;";
+        document.querySelectorAll(".header-2Kx1US")[i].style = "display: none;";
       }
       if (document.getElementsByClassName("noresults")[0] === undefined) {
         noresults = document.createElement("div");
@@ -248,59 +247,61 @@ module.exports = class SearchUtil {
       }
       for (
         let i = 0;
-        i < document.querySelectorAll(".separator-gCa7yv").length;
+        i < document.querySelectorAll(".separator-2wx7h6").length;
         i++
       ) {
-        document.querySelectorAll(".separator-gCa7yv")[i].style =
+        document.querySelectorAll(".separator-2wx7h6")[i].style =
           "display:none";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelector(".socialLinks-3jqNFy").style = "display:none";
-        document.querySelector(".info-1VyQPT").style = "display:none";
+        document.querySelector(".socialLinks-2DELRE").style = "display:none";
+        document.querySelector(".info-1sUqUG").style = "display:none";
       }
     } else if (displaycount < 4) {
       for (
         let i = 0;
-        i < document.querySelectorAll(".header-2RyJ0Y").length;
+        i < document.querySelectorAll(".header-2Kx1US").length;
         i++
       ) {
-        document.querySelectorAll(".header-2RyJ0Y")[i].style = "display: none;";
-        document.querySelectorAll(".separator-gCa7yv")[i].style =
+        document.querySelectorAll(".header-2Kx1US")[i].style = "display: none;";
+        document.querySelectorAll(".separator-2wx7h6")[i].style =
           "display: none;";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelector(".socialLinks-3jqNFy").style = "display:block";
-        document.querySelector(".info-1VyQPT").style = "display:block";
+        document.querySelector(".socialLinks-2DELRE").style = "display:block";
+        document.querySelector(".info-1sUqUG").style = "display:block";
       }
       if (document.getElementsByClassName("noresults")[0] !== undefined) {
         document.getElementsByClassName("noresults")[0].remove();
       }
-      document.querySelectorAll(".separator-gCa7yv")[
-        document.querySelectorAll(".header-2RyJ0Y").length + 1
+      document.querySelectorAll(".separator-2wx7h6")[
+        document.querySelectorAll(".header-2Kx1US").length + 1
       ].style = "display:none";
     } else {
       for (
         let i = 0;
-        i < document.querySelectorAll(".header-2RyJ0Y").length;
+        i < document.querySelectorAll(".header-2Kx1US").length;
         i++
       ) {
-        document.querySelectorAll(".header-2RyJ0Y")[i].style = "display:block";
-        document.querySelectorAll(".separator-gCa7yv")[i].style =
+        document.querySelectorAll(".header-2Kx1US")[i].style = "display:block";
+        document.querySelectorAll(".separator-2wx7h6")[i].style =
           "display:block";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelectorAll(".separator-gCa7yv")[
-          document.querySelectorAll(".header-2RyJ0Y").length + 1
+        document.querySelectorAll(".separator-2wx7h6")[
+          document.querySelectorAll(".header-2Kx1US").length + 1
         ].style = "display:block";
-        document.querySelector(".socialLinks-3jqNFy").style = "display:block";
-        document.querySelector(".info-1VyQPT").style = "display:block";
+        document.querySelector(".socialLinks-2DELRE").style = "display:block";
+        document.querySelector(".info-1sUqUG").style = "display:block";
       }
       if (document.getElementsByClassName("noresults")[0] !== undefined) {
         document.getElementsByClassName("noresults")[0].remove();
       }
     }
     if (value === "$hidden") {
-      let showelements = document.getElementsByClassName("better-settings-bad");
+      let showelements = document.getElementsByClassName(
+        "better-settings-hidden"
+      );
       for (let i = 0; i < showelements.length; i++) {
         showelements[
           i

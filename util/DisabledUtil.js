@@ -1,31 +1,24 @@
 /* eslint-disable */
 module.exports = class DisabledUtil {
-  static disabled(plugin) {
-    const baddiecolor = plugin.settings.get(
-      "baddiecolor",
-      parseInt("dd3a3a", 16)
-    );
-    const baddiemode = plugin.settings.get("baddiemode", "display");
-    const opacity = plugin.settings.get("opacity", 30);
+  static disabled(plugin, res) {
     let baddiessettings = plugin.settings.get("baddies", "");
-
-    let allitems = document.getElementsByClassName("item-PXvHYJ");
-    let baddies = baddiessettings.split(", ");
-
-    for (let i = 0; i < allitems.length; i++) {
-      for (let q of baddies) {
-        if (allitems[i].textContent.toUpperCase() == q.toUpperCase()) {
-          allitems[i].classList += " better-settings-bad";
-          if (baddiemode == "color") {
-            allitems[i].style.color = `#${baddiecolor.toString(16)}`;
-          } else if (baddiemode == "display") {
-            allitems[i].classList += " better-settings-bad-disable";
-            allitems[i].style.color = `#${baddiecolor.toString(16)}`;
-          } else if (baddiemode == "opacity") {
-            allitems[i].style.opacity = `${opacity}%`;
-          }
+    let hidden_items = [];
+    let hidden_list = baddiessettings.toUpperCase().split(", ");
+    let sidebar_items = res.props.sidebar.props.children;
+    for (let item of sidebar_items) {
+      if (typeof item.props.children == "string") {
+        if (hidden_list.indexOf(item.props.children.toUpperCase()) != -1) {
+          item.props.className = "better-settings-hidden";
+          hidden_items.push(item);
         }
+      } else if (
+        typeof item.props.children == "object" &&
+        hidden_list.indexOf(item.props.children.props.label.toUpperCase()) != -1
+      ) {
+        item.props.className = "better-settings-hidden";
+        hidden_items.push(item);
       }
     }
+    module.exports = hidden_items;
   }
 };

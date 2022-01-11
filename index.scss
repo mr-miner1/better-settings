@@ -1,8 +1,7 @@
 .fav-cont {
-  grid-area: 2/1;
 }
 
-.side-8zPYf6 {
+.side-2ur1Qk {
   display: grid;
   transition: 0.1s;
 }
@@ -25,7 +24,13 @@
     background-image: url("https://mr-miner1.github.io/better-settings/assests/search.svg");
     margin-left: -20px;
   }
-
+  .vertical-3aLnqW {
+    height: 30px;
+    margin: 0px;
+  }
+  .divider-_0um2u {
+    display: none;
+  }
   #settingssearch {
     grid-area: 1/1;
     width: 190px;
@@ -60,10 +65,6 @@
   //     // transition: 0.01s;
 
   // }
-}
-
-.better-settings-bad-disable {
-  display: none !important;
 }
 
 .categorydisabled {
@@ -254,4 +255,7 @@
   justify-content: space-between;
   height: 150px;
   font-family: var(--font-primary);
+}
+.better-settings-hidden {
+  display: none !important;
 }

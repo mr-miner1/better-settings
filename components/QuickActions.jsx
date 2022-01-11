@@ -63,7 +63,6 @@ module.exports = ({ url, pluginpath, server, id }) => {
               }, 500);
             }}
             onClick={(m) => {
-              document.getElementsByClassName("powercord-product");
               m.target.style.color = "pink";
               setTimeout(() => {
                 m.target.style.color = "white";

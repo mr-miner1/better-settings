@@ -16,7 +16,6 @@ const SearchTextbox = require("./components/SearchTextbox");
 const DisabledUtil = require("./util/DisabledUtil");
 const FavouritesUtil = require("./util/FavouritesUtil");
 const SearchUtil = require("./util/SearchUtil");
-const ShortcutUtil = require("./util/ShortcutUtil");
 const CustomContextMenu = require("./util/ContextMenu");
 const Customize = require("./util/Customize");
 const bd = require("./util/BD-like-settings");
@@ -134,44 +133,27 @@ module.exports = class BetterSettings extends Plugin {
         log("[BetterSettings]", res);
 
         settings = document.querySelector(
-          `[aria-label="USER_SETTINGS"] .side-8zPYf6`
+          `[aria-label="USER_SETTINGS"] .side-2ur1Qk`
         );
-
         if (document.getElementById("settingssearch") == null) {
           if (noreset === true && lastsection[sectionID]) {
             settingsModule.open(lastsection[sectionID]);
           }
           // autoFocus(autofocus);
-
-          // Prompt the user to reinstall because of some weird bug with the entity name
-          if (this.entityID === "Better-Settings") {
-            let updatenotif = document.createElement("div");
-            updatenotif.classList.add("updatenotif");
-            updatenotif.textContent =
-              "Better Settings had an update that requires you to change the plugin folder name to 'better-settings' (case sensitive) or reinstall the plugin\nsorry for the incovinence!";
-
-            document
-              .querySelector(`[aria-label="USER_SETTINGS"] .sidebar-CFHs9e`)
-              .append(updatenotif);
-          }
-
           setTimeout(() => {
             settings = document.querySelector(
-              `[aria-label="USER_SETTINGS"] .side-8zPYf6`
+              `[aria-label="USER_SETTINGS"] .side-2ur1Qk`
             );
             if (settings != null && settings.id !== "checked") {
               SearchUtil.search(
                 thisPlugin,
                 settingsModule,
                 document.querySelector(
-                  `[aria-label="USER_SETTINGS"] .side-8zPYf6`
+                  `[aria-label="USER_SETTINGS"] .side-2ur1Qk`
                 ),
                 sidebarItems,
                 "USER_SETTINGS"
               );
-              FavouritesUtil.favourites(thisPlugin);
-              DisabledUtil.disabled(thisPlugin);
-              ShortcutUtil.shortcut(thisPlugin, lastsection);
             }
           }, 0);
         }
@@ -190,7 +172,7 @@ module.exports = class BetterSettings extends Plugin {
 
         setTimeout(() => {
           settings = document.querySelector(
-            `[aria-label="GUILD_SETTINGS"] .side-8zPYf6`
+            `[aria-label="GUILD_SETTINGS"] .side-2ur1Qk`
           );
           if (settings != null && settings.id !== "checked") {
             // autoFocus(autofocus);
@@ -201,8 +183,6 @@ module.exports = class BetterSettings extends Plugin {
               190,
               "GUILD_SETTINGS"
             );
-            FavouritesUtil.favourites(thisPlugin);
-            DisabledUtil.disabled(thisPlugin);
           }
         }, 0);
 
@@ -257,9 +237,9 @@ module.exports = class BetterSettings extends Plugin {
             thisPlugin,
             settingsModule
           );
-          Customize.setColor();
-          Customize.setText();
-          Customize.setOpacity();
+          Customize.setColor(res, thisPlugin);
+          Customize.setText(res, thisPlugin);
+          Customize.setOpacity(res, thisPlugin);
         }
         return res;
       }
@@ -330,21 +310,38 @@ module.exports = class BetterSettings extends Plugin {
         return res;
       }
     );
+    inject(
+      "betterSettings_favorites_disabled",
+      SettingsView.prototype,
+      "render",
+      (_, res) => {
+        FavouritesUtil.favourites(thisPlugin, res);
+        DisabledUtil.disabled(thisPlugin, res);
+        return res;
+      },
+      false
+    );
   }
   pluginWillUnload() {
-    uninject("betterSettings_settings");
-    uninject("betterSettings_settingsItems");
-    uninject("betterSettings_settingsMount");
-    uninject("betterSettings_contextmenu");
-    uninject("betterSettings_productRenderPrePatch");
-    uninject("betterSettings_productRenderPatch");
-    uninject("betterSettings_productRenderFooterPatch");
-    uninject("betterSettings_makeSectionPatch");
-    uninject("betterSettings_getPredicateSectionsPatch");
-    uninject("betterSettings_openSettings");
-    uninject("betterSettings_quickActionsButtons");
-    uninject("betterSettings_quickActionsStart");
-    uninject("betterSettings_changelog");
+    let injected_elements = [
+      "betterSettings_settings",
+      "betterSettings_settingsItems",
+      "betterSettings_settingsMount",
+      "betterSettings_contextmenu",
+      "betterSettings_productRenderPrePatch",
+      "betterSettings_productRenderPatch",
+      "betterSettings_productRenderFooterPatch",
+      "betterSettings_makeSectionPatch",
+      "betterSettings_getPredicateSectionsPatch",
+      "betterSettings_openSettings",
+      "betterSettings_quickActionsButtons",
+      "betterSettings_quickActionsStart",
+      "betterSettings_changelog",
+      "betterSettings_favorites_disabled",
+    ];
+    for (let injected_element of injected_elements) {
+      uninject(injected_element);
+    }
     powercord.api.settings.unregisterSettings(this.entityID);
   }
 };

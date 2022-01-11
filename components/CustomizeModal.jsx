@@ -18,17 +18,18 @@ module.exports = class CustomizeModal extends React.PureComponent {
     super(props);
   }
   render() {
-    let contextname = powercord.pluginManager.get("better-settings").settings.get("contexttargetname"); //prettier-ignore
-    let favorites = powercord.pluginManager.get("better-settings").settings.get("favorites", ""); //prettier-ignore
-    let hidden = powercord.pluginManager.get("better-settings").settings.get("baddies", ""); //prettier-ignore
+    const plugin = powercord.pluginManager.get("better-settings");
+    let target_name = plugin.settings.get("target_name");
+    let favorites = plugin.settings.get("favorites", "");
+    let hidden = plugin.settings.get("baddies", "");
     favorites = favorites.toUpperCase();
     hidden = hidden.toUpperCase();
-    if (favorites.indexOf(contextname.toUpperCase()) != -1) {
+    if (favorites.indexOf(target_name.toUpperCase()) != -1) {
       setTimeout(() => {
         Customize.setFavorite(true);
         Customize.setDisabled(false);
       }, 0);
-    } else if (hidden.indexOf(contextname.toUpperCase()) != -1) {
+    } else if (hidden.indexOf(target_name.toUpperCase()) != -1) {
       setTimeout(() => {
         Customize.setFavorite(false);
         Customize.setDisabled(true);
@@ -39,12 +40,11 @@ module.exports = class CustomizeModal extends React.PureComponent {
         Customize.setDisabled(false);
       }, 0);
     }
-    // if (favorites.indexOf(contextname.toUpperCase()) == -1) {
-    //   setTimeout(() => {
-    //     Customize.setFavorite(false);
-    //     // Customize.setDisabled(true);
-    //   }, 0);
-    // }
+    if (favorites.indexOf(target_name.toUpperCase()) == -1) {
+      setTimeout(() => {
+        Customize.setFavorite(false);
+      }, 0);
+    }
     return (
       <Modal className="powercord-text">
         <Modal.Header>
@@ -61,13 +61,16 @@ module.exports = class CustomizeModal extends React.PureComponent {
             Color
           </ColorPickerInput>
           <TextInput
-            defaultValue={powercord.pluginManager.get("better-settings").settings.get("itemidlist")//prettier-ignore
-            [powercord.pluginManager.get("better-settings").settings.get("contexttarget")][2]} //prettier-ignore
+            defaultValue={
+              plugin.settings.get("itemidlist")[
+                plugin.settings.get("target_id")
+              ][2]
+            }
             onChange={(v) => {
               textcont = v;
             }}
             // note={''}
-            placeholder={contextname}
+            placeholder={target_name}
           >
             Custom Name
           </TextInput>
@@ -80,7 +83,7 @@ module.exports = class CustomizeModal extends React.PureComponent {
               <input
                 type={"checkbox"}
                 id={"favorite-checkbox"}
-                // checked={favorites.indexOf(contextname.toUpperCase()) != -1}
+                // checked={favorites.indexOf(target_name.toUpperCase()) != -1}
                 // value={"on"}
               ></input>
             </label>
@@ -100,14 +103,21 @@ module.exports = class CustomizeModal extends React.PureComponent {
           <SliderInput
             minValue={0}
             maxValue={100}
-            initialValue={powercord.pluginManager.get("better-settings").settings.get("itemidlist")//prettier-ignore
-            [powercord.pluginManager.get("better-settings").settings.get("contexttarget")][1]} //prettier-ignore
+            initialValue={
+              plugin.settings.get("itemidlist")[
+                plugin.settings.get("target_id")
+              ][1]
+            }
             markers={[0, 25, 50, 75, 100]}
-            defaultValue={powercord.pluginManager.get("better-settings").settings.get("itemidlist")//prettier-ignore
-            [powercord.pluginManager.get("better-settings").settings.get("contexttarget")][1]} //prettier-ignore
+            defaultValue={
+              plugin.settings.get("itemidlist")[
+                plugin.settings.get("target_id")
+              ][1]
+            }
             onValueChange={(change) => (opacity = change)}
+            disabled={true}
           >
-            Opacity
+            Opacity (Broken Right Now)
           </SliderInput>
         </Modal.Content>
 
@@ -117,21 +127,23 @@ module.exports = class CustomizeModal extends React.PureComponent {
             // disabled={this.state.alias == "" && this.state.text == ""}
             onClick={() => {
               if (color != undefined) {
-                Customize.createColor(color);
+                Customize.createColor(color, plugin);
               }
               if (textcont != undefined) {
-                Customize.createText(textcont, contextname);
+                Customize.createText(textcont, target_name, plugin);
               }
               if (opacity != undefined) {
-                Customize.createOpacity(opacity);
+                Customize.createOpacity(opacity, plugin);
               }
               Customize.addFavorite(
                 document.getElementById("favorite-checkbox").checked,
-                contextname
+                target_name,
+                plugin,
+                textcont
               );
               Customize.addDisabled(
                 document.getElementById("hidden-checkbox").checked,
-                contextname
+                target_name
               );
               textcont = undefined;
               color = undefined;
@@ -145,11 +157,11 @@ module.exports = class CustomizeModal extends React.PureComponent {
             color={Button.Colors.RED}
             // disabled={this.state.alias == "" && this.state.text == ""}
             onClick={() => {
-              Customize.createColor(10070709);
-              Customize.createText(powercord.pluginManager.get("better-settings").settings.get("contexttargetname")); //prettier-ignore
-              Customize.createOpacity(100);
-              Customize.addFavorite(false, contextname);
-              Customize.addDisabled(false, contextname);
+              Customize.createColor(10070709, plugin);
+              Customize.createText(plugin.settings.get("target_name"));
+              Customize.createOpacity(100, plugin);
+              Customize.addFavorite(false, target_name, plugin, textcont);
+              Customize.addDisabled(false, target_name);
               textcont = undefined;
               color = undefined;
               opacity = undefined;

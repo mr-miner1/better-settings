@@ -3,16 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const {
-  Card,
-  Clickable,
-  Divider,
-  Icons: { Close },
-  Tooltip,
-} = require("powercord/components");
-const ErrorBoundary = require("../../pc-settings/components/ErrorBoundary.jsx");
-const {
   React: { createElement },
-  i18n: { Messages },
 } = require("powercord/webpack");
 const footer = require("../components/QuickActions");
 module.exports = class QuickActions {

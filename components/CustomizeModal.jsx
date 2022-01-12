@@ -158,7 +158,7 @@ module.exports = class CustomizeModal extends React.PureComponent {
             // disabled={this.state.alias == "" && this.state.text == ""}
             onClick={() => {
               Customize.createColor(10070709, plugin);
-              Customize.createText(plugin.settings.get("target_name"));
+              Customize.createText("", target_name, plugin);
               Customize.createOpacity(100, plugin);
               Customize.addFavorite(false, target_name, plugin, textcont);
               Customize.addDisabled(false, target_name);

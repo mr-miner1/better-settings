@@ -303,9 +303,12 @@ module.exports = class BetterSettings extends Plugin {
       SettingsView.prototype,
       "render",
       (_, res) => {
-        if (this.settings.get("changelog", false) != true) {
+        if (this.settings.get("changelog", false)) {
+          this.settings.delete("changelog");
+        }
+        if (!this.settings.get("changelogV1:5", false)) {
+          this.settings.set("changelogV1:5", true);
           openModal(ChangeLogModal);
-          this.settings.set("changelog", true);
         }
         return res;
       }

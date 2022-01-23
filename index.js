@@ -244,7 +244,7 @@ module.exports = class BetterSettings extends Plugin {
         return res;
       }
     );
-    if (this.settings.get("qa_settings") == true) {
+    if (this.settings.get("qa_settings", true)) {
       bd.begin();
       inject(
         "betterSettings_productRenderPrePatch",

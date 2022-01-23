@@ -164,12 +164,13 @@ module.exports = class bd {
   }
 
   static openPatch(args) {
-    if (
-      !args[0].startsWith("pc-") &&
-      powercord.api.settings.tabs[args[0]] &&
-      !_this.settings.get(args[0])
-    )
-      _this.openedSettings = args[0];
+    //! Causes some issues with powercord and plugin setting tabs not loading when qa_settings is true
+    // if (
+    /*   !args[0].startsWith("pc-") && */
+    //   powercord.api.settings.tabs[args[0]] &&
+    /*   !_this.settings.get(args[0]) */
+    // )
+    //   _this.openedSettings = args[0];
     return args;
   }
 };

@@ -56,7 +56,6 @@ module.exports = class CustomContextMenu {
                   plugin.settings.set("target_name", itemname);
                 }
               }
-              plugin.settings.set("target", item);
               plugin.settings.set("target_id", target);
               contextMenu.openContextMenu(args, () => menucont);
             } catch (error) {

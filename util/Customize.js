@@ -9,7 +9,6 @@ module.exports = class Customize {
     );
     let itemidlist = plugin.settings.get("itemidlist");
     let target_id = plugin.settings.get("target_id");
-    // let target = plugin.settings.get("target");
     itemidlist[target_id][0] = `#${color.toString(16)}`;
     if (color == 10070709) {
       itemidlist[target_id][0] = undefined;

@@ -6,12 +6,11 @@ const { FormTitle, Button, Divider } = require("powercord/components");
 module.exports = class ChangeLogModal extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.image =
-      "https://en.karabayyazilim.com/uploads/blogs/reactjs-nedir-2019-06-24-091546/reactjs-nedir-2019-06-24-091546-0.jpg";
-    this.version = "v1.5";
+    this.image = "https://i.imgur.com/ODtkNQT.png";
+    this.version = "v1.6";
     this.plugin = "Better Settings";
-    this.date = "12/01/21";
-    this.content_title = "Now using React instead of DOM";
+    this.date = "02/02/22";
+    this.content_title = "QOL Update";
     this.github = "https://github.com/mr-miner1/better-settings";
   }
   render() {
@@ -29,18 +28,20 @@ module.exports = class ChangeLogModal extends React.PureComponent {
             src={this.image}
           ></img>
           <Divider />
-          <div className="bd-cl-content">
-            <b style={{ fontSize: "17px" }}>{this.content_title}</b>
-            <span>Faster</span>
-            <span>Less Bloaty</span>
-            <span>Resource Efficient</span>
-            <span>Cooler Customizations</span>
-            <span style={{ fontSize: "12px" }}>
-              Searching is still using DOM but hopefully not for long!
-            </span>
-            <span style={{ fontSize: "12px" }}>
-              Also opacity doesnt work right now
-            </span>
+          <div className="bs-cl-content">
+            <b style={{ fontSize: "17px", marginBottom: "5px" }}>
+              {this.content_title}
+            </b>
+
+            <p>Quick Delete now has a confimation toast</p>
+            <p>Quick Actions available for themes as well</p>
+            <p>
+              Add optional button next to search bar to open the plugin's
+              settings
+            </p>
+            <p>
+              You can now disable seeing these pesky changlelogs in settings too
+            </p>
           </div>
         </Modal.Content>
 

@@ -100,6 +100,8 @@ module.exports = class BetterSettings extends Plugin {
         sidebarItems.unshift(
           React.createElement(SearchTextbox, {
             placeholderText: Messages.SEARCH,
+            openSettings: settingsModule.open,
+            settingsButton: this.settings.get("settings_button", false),
           })
         );
 
@@ -305,9 +307,14 @@ module.exports = class BetterSettings extends Plugin {
       (_, res) => {
         if (this.settings.get("changelog", false)) {
           this.settings.delete("changelog");
+        } else if (this.settings.get("changelogV1:5", false)) {
+          this.settings.delete("changelogV1:5", true);
         }
-        if (!this.settings.get("changelogV1:5", false)) {
-          this.settings.set("changelogV1:5", true);
+        if (
+          !this.settings.get("changelogV1:6", false) &&
+          this.settings.get("show_changelogs", true)
+        ) {
+          this.settings.set("changelogV1:6", true);
           openModal(ChangeLogModal);
         }
         return res;

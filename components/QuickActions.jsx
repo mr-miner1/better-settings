@@ -4,11 +4,12 @@ const {
   Tooltip,
   Icons: { GitHub, Bin, Sync, Person },
 } = require("powercord/components");
-
+const { open: openModal } = require("powercord/modal");
 const { shell } = require("electron");
 const fs = require("fs");
+const DeleteModal = require("./DeleteModal");
 let settings;
-module.exports = ({ url, pluginpath, server, id }) => {
+module.exports = ({ url, path, server, id, name, type }) => {
   let constructor = (props) => {
     settings = powercord.pluginManager.get("better-settings").settings;
   };
@@ -26,17 +27,24 @@ module.exports = ({ url, pluginpath, server, id }) => {
         <Tooltip text="Open Folder">
           <button
             id="better-settings-open"
-            onClick={() => shell.openPath(pluginpath)}
+            onClick={() => shell.openPath(path)}
           >
             <Sync />
           </button>
         </Tooltip>
       ) : null}
       {settings.get("qa_remount", false) == true ? (
-        <Tooltip text="Reload Plugin">
+        <Tooltip text={`Reload ${type}`}>
           <button
             id="better-settings-remount"
-            onClick={() => powercord.pluginManager.remount(id)}
+            onClick={() => {
+              if (type === "Theme") {
+                powercord.styleManager.disable(id);
+                powercord.styleManager.enable(id);
+              } else {
+                powercord.pluginManager.remount(id);
+              }
+            }}
           >
             <Sync />
           </button>
@@ -50,24 +58,45 @@ module.exports = ({ url, pluginpath, server, id }) => {
         </Tooltip>
       ) : null}
       {settings.get("qa_delete", true) == true ? (
-        <Tooltip text="Double Click To Delete Plugin">
+        <Tooltip text={`Delete ${type}`}>
           <button
             id="better-settings-delete"
-            onDoubleClick={(m) => {
-              fs.rmdir(pluginpath, { recursive: true }, (err) => {});
-              m.target.src = "https://svgur.com/i/bXm.svg";
-              console.error("plugin deleted");
-              m.target.style.color = "#ED4245";
-              setTimeout(() => {
-                m.target.style.color = "#ED4245";
-              }, 500);
-            }}
             onClick={(m) => {
-              m.target.style.color = "pink";
-              setTimeout(() => {
-                m.target.style.color = "white";
-              }, 500);
-              console.warn("Double Click To Delete Plugin");
+              try {
+                // openModal(DeleteModal);
+                powercord.api.notices.sendToast("DeleteConfirmation" + name, {
+                  header: `Delete ${type} (${name})`,
+                  content: `This action is irrevesable!`,
+                  buttons: [
+                    {
+                      text: "Cancel",
+                      color: "green",
+                      look: "outlined",
+                      onClick: () =>
+                        powercord.api.notices.closeToast(
+                          "DeleteConfirmation" + name
+                        ),
+                    },
+                    {
+                      text: "Delete",
+                      color: "red",
+                      look: "outlined",
+                      onClick: () => {
+                        try {
+                          fs.rmdir(path, { recursive: true }, (e) => {
+                            powercord[
+                              type == "Theme" ? "styleManager" : "pluginManager"
+                            ].unmount(id);
+                          });
+                        } catch (e) {}
+                      },
+                    },
+                  ],
+                  timeout: 5e3,
+                });
+              } catch (e) {
+                console.error(e);
+              }
             }}
           >
             <Bin />

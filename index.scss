@@ -1,86 +1,96 @@
-.fav-cont {
-}
-
 .side-2ur1Qk {
   display: grid;
   transition: 0.1s;
 }
 
 .searchdiv {
+  justify-self: center;
   grid-area: 1/1;
   margin-bottom: 10px;
   margin-top: -10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  // grid-gap: 4px;
   opacity: 1 !important;
-  // filter: opacity(100);
-  .settingsicon {
-    grid-area: 1/2;
-    transition: 0.2s;
-    height: 15px;
-    width: 15px;
-    opacity: 0.7;
-    background-image: url("https://mr-miner1.github.io/better-settings/assests/search.svg");
-    margin-left: -20px;
-  }
-  .vertical-3aLnqW {
-    height: 30px;
-    margin: 0px;
-  }
-  .divider-_0um2u {
-    display: none;
-  }
-  #settingssearch {
-    grid-area: 1/1;
-    width: 190px;
-    border: 1px solid var(--background-tertiary);
-    padding: 10px;
-    height: 30px;
-    font-size: 15px;
+  min-width: 190px;
+  width: auto;
+  max-width: 205px;
+  .searchinp {
+    padding: 0;
+    margin-right: 5px;
+    display: grid;
+    align-items: center;
+    width: 100%;
     background-color: var(--background-tertiary);
-    color: rgba(255, 255, 255, 0.514);
-    transition: 0.2s;
+    min-width: 120px;
+    max-width: 205px;
     border-radius: 4px;
+    justify-content: center;
+    grid-template-columns: 88% 12%;
+    .settingsicon {
+      grid-area: 1/2;
+      transition: 0.2s;
+      height: 15px;
+      width: 15px;
+      opacity: 0.7;
+      background-image: url("https://mr-miner1.github.io/better-settings/assests/search.svg");
+    }
+    #settingssearch {
+      width: 100%;
+      grid-area: 1/1;
+      border: 0;
+      background-color: transparent;
+      padding: 10px;
+      height: 30px;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.514);
+      transition: 0.2s;
 
-    &:focus,
+      &:focus,
+      &:hover {
+        color: var(--text-normal);
+      }
+
+      &:focus + .settingsicon,
+      &:hover + .settingsicon {
+        opacity: 1;
+      }
+    }
+    .bs-open-settings {
+      height: 27px;
+      width: 27px;
+      text-align: center;
+    }
+  }
+  button {
+    display: inline-block;
+    height: 27.5px;
+    width: 27.5px;
+    background-color: var(--background-tertiary);
+    // background-color: transparent;
+    color: rgba(255, 255, 255, 0.514);
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    svg {
+      transition: 0.2s;
+      opacity: 0.7;
+    }
     &:hover {
-      color: var(--text-normal);
-    }
-
-    &:focus + .settingsicon,
-    &:hover + .settingsicon {
-      opacity: 1;
+      // color: var(--text-normal);
+      svg {
+        opacity: 1;
+      }
     }
   }
-}
-
-.BetterSettingsSettings {
-  .uwu {
-    font-size: 15px;
-  }
-
-  //     .colorPickerSwatch-5GX3Ve.custom-2SJn4n.noColor-1pdBDm{
-  //     background-color: var(--favorite-setting-color);
-  //     // transition: 0.01s;
-
-  // }
 }
 
 .categorydisabled {
   cursor: not-allowed !important;
   filter: grayscale(1);
-}
-
-.updatenotif {
-  position: absolute;
-  top: 2%;
-  opacity: 1;
-  width: 300px;
-  left: 5%;
-  // background: var(--background-tertiary);
-  color: white;
-  // display: none;
 }
 
 .noresults {
@@ -103,15 +113,12 @@
 .better-settings-checkbox {
   label,
   button {
-    // font-size: 20px;
     font-family: var(--font-display);
     margin-right: 8px;
     color: var(--text-normal);
     font-size: 16px;
   }
   input {
-    // opacity: 0;
-    // transform: scale(0);
     transform: scale(0.1);
   }
   input::before {
@@ -248,13 +255,16 @@
 .bs-settings-tab-bar {
   margin-bottom: 20px;
 }
-.bd-cl-content {
+.bs-cl-content {
   margin: 15px 9px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 150px;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  height: auto;
   font-family: var(--font-primary);
+  span {
+    margin: 5px 0px;
+  }
 }
 .better-settings-hidden {
   display: none !important;

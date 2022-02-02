@@ -50,7 +50,7 @@ module.exports = class bd {
   static makeSectionPatch(_, res) {
     if (
       res.section.startsWith("pc-") ||
-      _this.settings.get("bd-like-settings", false) === false ||
+      !_this.settings.get("hide_all_plugins", false) ||
       _this.settings.get(res.section) ||
       _this.openedSettings === res.section
     )
@@ -65,7 +65,7 @@ module.exports = class bd {
   static productRenderPrePatch() {
     if (this.props.isAPlugin === false || this.settingsTab !== undefined)
       return [];
-    if (this.props.plugin === undefined) {
+    if (this.props.plugin === undefined && this.props.theme === undefined) {
       const plugin = [...powercord.pluginManager.plugins.values()].find(
         (p) => JSON.stringify(p.manifest) == JSON.stringify(this.props.product)
       );
@@ -165,12 +165,12 @@ module.exports = class bd {
 
   static openPatch(args) {
     //! Causes some issues with powercord and plugin setting tabs not loading when qa_settings is true
-    // if (
-    /*   !args[0].startsWith("pc-") && */
-    //   powercord.api.settings.tabs[args[0]] &&
-    /*   !_this.settings.get(args[0]) */
-    // )
-    //   _this.openedSettings = args[0];
-    return args;
+    /*if (
+      !args[0].startsWith("pc-") &&
+      powercord.api.settings.tabs[args[0]] &&
+      !_this.settings.get(args[0])
+    )
+      _this.openedSettings = args[0];
+    return args; */
   }
 };

@@ -49,6 +49,24 @@ module.exports = class PluginSettings extends React.PureComponent {
           >
             Don't reset settings on close
           </SwitchItem>
+          <SwitchItem
+            value={getSetting("settings_button", false)}
+            onChange={() => {
+              toggleSetting("settings_button");
+            }}
+            note="Button next to the search bar to open settings for the plugin"
+          >
+            Settings Button
+          </SwitchItem>
+          <SwitchItem
+            value={getSetting("show_changelogs", true)}
+            onChange={() => {
+              toggleSetting("show_changelogs");
+            }}
+            note="enable or disable seeing changelogs when there is a plugin update"
+          >
+            Show Changelogs
+          </SwitchItem>
           <Category
             name="Favorites"
             // description="Customize Your Embeds"
@@ -123,7 +141,7 @@ module.exports = class PluginSettings extends React.PureComponent {
               onChange={() => {
                 toggleSetting("qa_github");
               }}
-              note="redirects you to the plugin repo"
+              note="redirects you to the plugin/theme repo"
             >
               GitHub
             </SwitchItem>
@@ -132,7 +150,7 @@ module.exports = class PluginSettings extends React.PureComponent {
               onChange={() => {
                 toggleSetting("qa_folder");
               }}
-              note="opens the plugin folder"
+              note="opens the plugin/theme folder"
             >
               Open Folder
             </SwitchItem>
@@ -141,7 +159,7 @@ module.exports = class PluginSettings extends React.PureComponent {
               onChange={() => {
                 toggleSetting("qa_delete");
               }}
-              note="deletes the plugin from inside discord"
+              note="deletes the plugin/theme from inside discord"
             >
               Delete
             </SwitchItem>
@@ -150,7 +168,7 @@ module.exports = class PluginSettings extends React.PureComponent {
               onChange={() => {
                 toggleSetting("qa_remount");
               }}
-              note="reloads the plugin"
+              note="reloads the plugin/theme"
             >
               Reload
             </SwitchItem>

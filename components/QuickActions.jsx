@@ -7,7 +7,7 @@ const {
 const { open: openModal } = require("powercord/modal");
 const { shell } = require("electron");
 const fs = require("fs");
-const DeleteModal = require("./DeleteModal");
+// const DeleteModal = require("./DeleteModal");
 let settings;
 module.exports = ({ url, path, server, id, name, type }) => {
   let constructor = (props) => {

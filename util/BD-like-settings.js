@@ -170,7 +170,7 @@ module.exports = class bd {
       powercord.api.settings.tabs[args[0]] &&
       !_this.settings.get(args[0])
     )
-      _this.openedSettings = args[0];
-    return args; */
+      _this.openedSettings = args[0]; */
+    return args;
   }
 };

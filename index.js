@@ -207,8 +207,11 @@ module.exports = class BetterSettings extends Plugin {
           false
         );
 
-        // are we somehow running outside of powercord?
-        if (updaterItem > 0 && separatePluginsCategory) {
+        // refresh plugin on first open because it doesnt get the index for somereason
+        if (updaterItem === 0 && separatePluginsCategory)
+          powercord.pluginManager.remount("better-settings");
+
+        if (separatePluginsCategory) {
           const pcPluginsCategory = [
             { section: "DIVIDER" },
             { section: "HEADER", label: "Plugins" },

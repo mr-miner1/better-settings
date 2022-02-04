@@ -206,12 +206,16 @@ module.exports = class BetterSettings extends Plugin {
           "pluginsCategory",
           false
         );
-
+        console.log(items);
         // refresh plugin on first open because it doesnt get the index for somereason
-        if (updaterItem === 0 && separatePluginsCategory)
+        if (
+          updaterItem === 0 &&
+          separatePluginsCategory &&
+          items[0].label === "User Settings"
+        )
           powercord.pluginManager.remount("better-settings");
 
-        if (separatePluginsCategory) {
+        if (separatePluginsCategory && items[0].label === "User Settings") {
           const pcPluginsCategory = [
             { section: "DIVIDER" },
             { section: "HEADER", label: "Plugins" },

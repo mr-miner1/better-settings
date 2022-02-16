@@ -9,6 +9,10 @@ const {
 const InstalledProduct = require("../pc-moduleManager/components/parts/InstalledProduct.jsx");
 const Settings = require("../pc-settings/index.js");
 const { open: openModal } = require("powercord/modal");
+const { header, separator } = getModule(
+  ["header", "separator", "themed", "item"],
+  false
+);
 
 const PluginSettings = require("./components/Settings");
 const SearchTextbox = require("./components/SearchTextbox");
@@ -195,37 +199,35 @@ module.exports = class BetterSettings extends Plugin {
     inject(
       "betterSettings_settingsItems",
       SettingsView.prototype,
-      "getPredicateSections",
-      (args, items) => {
-        // Separate Powercord plugins and give them their own category
+      "render",
+      (args, res) => {
+        const sidebarItems = res.props.sidebar.props.children;
         const updaterItem =
-          items.findIndex((item) => {
-            return item.section === "pc-updater";
+          sidebarItems.findIndex((item) => {
+            return item.key === "pc-updater";
           }) + 1;
-        const separatePluginsCategory = thisPlugin.settings.get(
-          "pluginsCategory",
-          false
-        );
-        console.log(items);
-        // refresh plugin on first open because it doesnt get the index for somereason
         if (
-          updaterItem === 0 &&
-          separatePluginsCategory &&
-          items[0].label === "User Settings"
-        )
-          powercord.pluginManager.remount("better-settings");
-
-        if (separatePluginsCategory && items[0].label === "User Settings") {
-          const pcPluginsCategory = [
-            { section: "DIVIDER" },
-            { section: "HEADER", label: "Plugins" },
-          ];
-
-          items.splice(updaterItem, 0, ...pcPluginsCategory);
+          thisPlugin.settings.get("pluginsCategory", false) &&
+          updaterItem !== 0
+        ) {
+          let pluginHeader = React.createElement(
+            "div",
+            { className: header },
+            "Plugins"
+          );
+          let pluginDivider = React.createElement("div", {
+            className: separator,
+          });
+          res.props.sidebar.props.children.splice(
+            updaterItem,
+            0,
+            ...[pluginDivider, pluginHeader]
+          );
         }
-        return items;
+        return res;
       }
     );
+
     inject(
       "betterSettings_contextmenu",
       SettingsView.prototype,

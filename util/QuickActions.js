@@ -9,9 +9,6 @@ const Divider = require("powercord/components/Divider.jsx");
 
 module.exports = class QuickActions {
   static begin() {
-    let quick_actions_settings = powercord.pluginManager
-      .get("better-settings")
-      .settings.get("quick_actions");
     let settings = powercord.pluginManager.get("better-settings").settings;
     if (
       !(

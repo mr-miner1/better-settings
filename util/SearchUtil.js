@@ -101,8 +101,8 @@ module.exports = class SearchUtil {
             "display:none";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelector(".socialLinks-2DELRE").style = "display:none";
-          document.querySelector(".info-1sUqUG").style = "display:none";
+          document.querySelector(".socialLinks-3ywLUf").style = "display:none";
+          document.querySelector(".info-3pQQBb").style = "display:none";
         }
       } else if (displaycount < 4) {
         for (
@@ -116,8 +116,8 @@ module.exports = class SearchUtil {
             "display: none;";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelector(".socialLinks-2DELRE").style = "display:block";
-          document.querySelector(".info-1sUqUG").style = "display:block";
+          document.querySelector(".socialLinks-3ywLUf").style = "display:block";
+          document.querySelector(".info-3pQQBb").style = "display:block";
         }
         if (document.getElementsByClassName("noresults")[0] !== undefined) {
           document.getElementsByClassName("noresults")[0].remove();
@@ -142,8 +142,8 @@ module.exports = class SearchUtil {
           document.querySelectorAll(".separator-2wx7h6")[
             document.querySelectorAll(".header-2Kx1US").length + 1
           ].style = "display:block";
-          document.querySelector(".socialLinks-2DELRE").style = "display:block";
-          document.querySelector(".info-1sUqUG").style = "display:block";
+          document.querySelector(".socialLinks-3ywLUf").style = "display:block";
+          document.querySelector(".info-3pQQBb").style = "display:block";
         }
         if (document.getElementsByClassName("noresults")[0] !== undefined) {
           document.getElementsByClassName("noresults")[0].remove();
@@ -254,8 +254,8 @@ module.exports = class SearchUtil {
           "display:none";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelector(".socialLinks-2DELRE").style = "display:none";
-        document.querySelector(".info-1sUqUG").style = "display:none";
+        document.querySelector(".socialLinks-3ywLUf").style = "display:none";
+        document.querySelector(".info-3pQQBb").style = "display:none";
       }
     } else if (displaycount < 4) {
       for (
@@ -268,8 +268,8 @@ module.exports = class SearchUtil {
           "display: none;";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelector(".socialLinks-2DELRE").style = "display:block";
-        document.querySelector(".info-1sUqUG").style = "display:block";
+        document.querySelector(".socialLinks-3ywLUf").style = "display:block";
+        document.querySelector(".info-3pQQBb").style = "display:block";
       }
       if (document.getElementsByClassName("noresults")[0] !== undefined) {
         document.getElementsByClassName("noresults")[0].remove();
@@ -291,8 +291,8 @@ module.exports = class SearchUtil {
         document.querySelectorAll(".separator-2wx7h6")[
           document.querySelectorAll(".header-2Kx1US").length + 1
         ].style = "display:block";
-        document.querySelector(".socialLinks-2DELRE").style = "display:block";
-        document.querySelector(".info-1sUqUG").style = "display:block";
+        document.querySelector(".socialLinks-3ywLUf").style = "display:block";
+        document.querySelector(".info-3pQQBb").style = "display:block";
       }
       if (document.getElementsByClassName("noresults")[0] !== undefined) {
         document.getElementsByClassName("noresults")[0].remove();

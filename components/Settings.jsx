@@ -106,6 +106,15 @@ module.exports = class PluginSettings extends React.PureComponent {
             >
               Hidden List
             </TextInput>
+            <SwitchItem
+              value={getSetting("search_hidden", false)}
+              onChange={() => {
+                toggleSetting("search_hidden");
+              }}
+              note="when searching hidden settings are visible and searchable, searching with $ in front of search query does the same."
+            >
+              Show Hidden Items While Searching
+            </SwitchItem>
           </Category>
         </div>
       );

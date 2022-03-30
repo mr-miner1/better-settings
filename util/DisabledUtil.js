@@ -8,14 +8,14 @@ module.exports = class DisabledUtil {
     for (let item of sidebar_items) {
       if (typeof item.props.children == "string") {
         if (hidden_list.indexOf(item.props.children.toUpperCase()) != -1) {
-          item.props.className = "better-settings-hidden";
+          item.props.className = "bs-hidden";
           hidden_items.push(item);
         }
       } else if (
         typeof item.props.children == "object" &&
         hidden_list.indexOf(item.props.children.props.label.toUpperCase()) != -1
       ) {
-        item.props.className = "better-settings-hidden";
+        item.props.className = "bs-hidden";
         hidden_items.push(item);
       }
     }

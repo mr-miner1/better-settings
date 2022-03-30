@@ -4,7 +4,14 @@ const {
   i18n: { Messages },
 } = require("powercord/webpack");
 const Util = require("./Util");
-
+let { header, separator, item: item_class } = getModule(["side"], false);
+let socialLinks;
+getModule(["socialLinks"]).then((socialLinksModule) => {
+  socialLinks = "." + socialLinksModule.socialLinks;
+});
+header = "." + header;
+separator = "." + separator;
+let info = ".info-3pQQBb";
 module.exports = class SearchUtil {
   getItemId(itemid) {
     return (itemid =
@@ -40,21 +47,21 @@ module.exports = class SearchUtil {
   }
 
   static search(plugin, settingsModule, settings, sidebarItems, name) {
-    const baddiecolor = plugin.settings.get(
-      "baddiecolor",
-      parseInt("dd3a3a", 16)
-    );
     //add settingssearchbar
     //eventlistener for when input changes
     document.getElementById("settingssearch").addEventListener("input", () => {
       //search
-      let input, value, items;
+      let input, value, items, search_hidden;
       input = document.getElementById("settingssearch");
       value = input.value.toLowerCase();
-      items = document.getElementsByClassName("item-3XjbnG");
+      items = document.getElementsByClassName(item_class);
+      search_hidden = plugin.settings.get("search_hidden", false);
 
       let resultsCount = 0;
-
+      if (value.startsWith("$")) {
+        value = value.replace("$", "");
+        search_hidden = true;
+      }
       // Search algorithm
       for (let i = 0; i < items.length; i++) {
         if (
@@ -77,13 +84,8 @@ module.exports = class SearchUtil {
         }
       }
       if (displaycount === 0) {
-        for (
-          let i = 0;
-          i < document.querySelectorAll(".header-2Kx1US").length;
-          i++
-        ) {
-          document.querySelectorAll(".header-2Kx1US")[i].style =
-            "display: none;";
+        for (let i = 0; i < document.querySelectorAll(header).length; i++) {
+          document.querySelectorAll(header)[i].style = "display: none;";
         }
         if (document.getElementsByClassName("noresults")[0] === undefined) {
           noresults = document.createElement("div");
@@ -92,76 +94,66 @@ module.exports = class SearchUtil {
 
           settings.appendChild(noresults);
         }
-        for (
-          let i = 0;
-          i < document.querySelectorAll(".separator-2wx7h6").length;
-          i++
-        ) {
-          document.querySelectorAll(".separator-2wx7h6")[i].style =
-            "display:none";
+        for (let i = 0; i < document.querySelectorAll(separator).length; i++) {
+          document.querySelectorAll(separator)[i].style = "display:none";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelector(".socialLinks-3ywLUf").style = "display:none";
-          document.querySelector(".info-3pQQBb").style = "display:none";
+          document.querySelector(socialLinks).style = "display:none";
+          document.querySelector(info).style = "display:none";
         }
       } else if (displaycount < 4) {
-        for (
-          let i = 0;
-          i < document.querySelectorAll(".header-2Kx1US").length;
-          i++
-        ) {
-          document.querySelectorAll(".header-2Kx1US")[i].style =
-            "display: none;";
-          document.querySelectorAll(".separator-2wx7h6")[i].style =
-            "display: none;";
+        for (let i = 0; i < document.querySelectorAll(header).length; i++) {
+          document.querySelectorAll(header)[i].style = "display: none;";
+          document.querySelectorAll(separator)[i].style = "display: none;";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelector(".socialLinks-3ywLUf").style = "display:block";
-          document.querySelector(".info-3pQQBb").style = "display:block";
+          document.querySelector(socialLinks).style = "display:block";
+          document.querySelector(info).style = "display:block";
         }
         if (document.getElementsByClassName("noresults")[0] !== undefined) {
           document.getElementsByClassName("noresults")[0].remove();
         }
         if (name === "USER_SETTINGS") {
-          document.querySelectorAll(".separator-2wx7h6")[
-            document.querySelectorAll(".header-2Kx1US").length + 1
+          document.querySelectorAll(separator)[
+            document.querySelectorAll(header).length + 1
           ].style = "display:none";
         }
       } else {
-        for (
-          let i = 0;
-          i < document.querySelectorAll(".header-2Kx1US").length;
-          i++
-        ) {
-          document.querySelectorAll(".header-2Kx1US")[i].style =
-            "display:block";
-          document.querySelectorAll(".separator-2wx7h6")[i].style =
-            "display:block";
+        for (let i = 0; i < document.querySelectorAll(header).length; i++) {
+          document.querySelectorAll(header)[i].style = "display:block";
+          document.querySelectorAll(separator)[i].style = "display:block";
         }
         if (name === "USER_SETTINGS") {
-          document.querySelectorAll(".separator-2wx7h6")[
-            document.querySelectorAll(".header-2Kx1US").length + 1
+          document.querySelectorAll(separator)[
+            document.querySelectorAll(header).length + 1
           ].style = "display:block";
-          document.querySelector(".socialLinks-3ywLUf").style = "display:block";
-          document.querySelector(".info-3pQQBb").style = "display:block";
+          document.querySelector(socialLinks).style = "display:block";
+          document.querySelector(info).style = "display:block";
         }
         if (document.getElementsByClassName("noresults")[0] !== undefined) {
           document.getElementsByClassName("noresults")[0].remove();
         }
       }
-      if (value === "$hidden") {
-        let showelements = document.getElementsByClassName(
-          "better-settings-hidden"
-        );
+      if (search_hidden && value.length > 1) {
+        let showelements = document.getElementsByClassName("bs-hidden");
         for (let i = 0; i < showelements.length; i++) {
-          showelements[
-            i
-          ].style = `display: block !important; color:#${baddiecolor.toString(
-            16
-          )};`;
+          showelements[i].classList.add("bs-not-hidden");
+          showelements[i].classList.remove("bs-hidden");
         }
-        if (document.getElementsByClassName("noresults")[0] !== undefined) {
-          document.getElementsByClassName("noresults")[0].remove();
+        if (value == "hidden") {
+          showelements = document.getElementsByClassName("bs-not-hidden");
+          for (let i = 0; i < showelements.length; i++) {
+            showelements[i].style = `display: block !important;`;
+          }
+          if (document.getElementsByClassName("noresults")[0] !== undefined) {
+            document.getElementsByClassName("noresults")[0].remove();
+          }
+        }
+      } else if (value.length < 1) {
+        let showelements = document.getElementsByClassName("bs-not-hidden");
+        for (let i = 0; i < showelements.length; i++) {
+          showelements[i].classList.remove("bs-not-hidden");
+          showelements[i].classList.add("bs-hidden");
         }
       }
     });
@@ -169,7 +161,7 @@ module.exports = class SearchUtil {
       let done = false;
       if (e.key === "Enter" && name == "USER_SETTINGS") {
         let itemid;
-        let items = document.getElementsByClassName("item-3XjbnG");
+        let items = document.getElementsByClassName(item_class);
         for (let i = 0; i < items.length; i++) {
           if (
             items[i].style.cssText.indexOf("display: none") == -1 &&
@@ -186,9 +178,10 @@ module.exports = class SearchUtil {
         for (let i = 0; i < items.length; i++) {
           if (
             items[i].style.cssText.indexOf("display: none") == -1 &&
-            items[i].classList[2] !== "better-settings-fav" &&
+            !items[i].classList.contains("better-settings-fav") &&
             done === false &&
-            name === "USER_SETTINGS"
+            name === "USER_SETTINGS" &&
+            !items[i].classList.contains("bs-hidden")
           ) {
             itemid = items[i].getAttribute("data-item-id");
             itemid = this.prototype.getItemId(itemid);
@@ -204,7 +197,7 @@ module.exports = class SearchUtil {
     //search
     let input = document.getElementById("settingssearch");
     let value = input.value.toLowerCase();
-    let items = document.getElementsByClassName("item-3XjbnG");
+    let items = document.getElementsByClassName(item_class);
 
     let resultsCount = 0;
 
@@ -226,17 +219,12 @@ module.exports = class SearchUtil {
 
     for (let i = 0; i < items.length; i++) {
       if ("display: none".indexOf(items[i].style.cssText) === 0) {
-        // document.querySelectorAll(".side-2ur1Qk")[0].style.opacity = "100";
         displaycount += 1;
       }
     }
     if (displaycount === 0) {
-      for (
-        let i = 0;
-        i < document.querySelectorAll(".header-2Kx1US").length;
-        i++
-      ) {
-        document.querySelectorAll(".header-2Kx1US")[i].style = "display: none;";
+      for (let i = 0; i < document.querySelectorAll(header).length; i++) {
+        document.querySelectorAll(header)[i].style = "display: none;";
       }
       if (document.getElementsByClassName("noresults")[0] === undefined) {
         noresults = document.createElement("div");
@@ -245,63 +233,46 @@ module.exports = class SearchUtil {
 
         settings.appendChild(noresults);
       }
-      for (
-        let i = 0;
-        i < document.querySelectorAll(".separator-2wx7h6").length;
-        i++
-      ) {
-        document.querySelectorAll(".separator-2wx7h6")[i].style =
-          "display:none";
+      for (let i = 0; i < document.querySelectorAll(separator).length; i++) {
+        document.querySelectorAll(separator)[i].style = "display:none";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelector(".socialLinks-3ywLUf").style = "display:none";
-        document.querySelector(".info-3pQQBb").style = "display:none";
+        document.querySelector(socialLinks).style = "display:none";
+        document.querySelector(info).style = "display:none";
       }
     } else if (displaycount < 4) {
-      for (
-        let i = 0;
-        i < document.querySelectorAll(".header-2Kx1US").length;
-        i++
-      ) {
-        document.querySelectorAll(".header-2Kx1US")[i].style = "display: none;";
-        document.querySelectorAll(".separator-2wx7h6")[i].style =
-          "display: none;";
+      for (let i = 0; i < document.querySelectorAll(header).length; i++) {
+        document.querySelectorAll(header)[i].style = "display: none;";
+        document.querySelectorAll(separator)[i].style = "display: none;";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelector(".socialLinks-3ywLUf").style = "display:block";
-        document.querySelector(".info-3pQQBb").style = "display:block";
+        document.querySelector(socialLinks).style = "display:block";
+        document.querySelector(info).style = "display:block";
       }
       if (document.getElementsByClassName("noresults")[0] !== undefined) {
         document.getElementsByClassName("noresults")[0].remove();
       }
-      document.querySelectorAll(".separator-2wx7h6")[
-        document.querySelectorAll(".header-2Kx1US").length + 1
+      document.querySelectorAll(separator)[
+        document.querySelectorAll(header).length + 1
       ].style = "display:none";
     } else {
-      for (
-        let i = 0;
-        i < document.querySelectorAll(".header-2Kx1US").length;
-        i++
-      ) {
-        document.querySelectorAll(".header-2Kx1US")[i].style = "display:block";
-        document.querySelectorAll(".separator-2wx7h6")[i].style =
-          "display:block";
+      for (let i = 0; i < document.querySelectorAll(header).length; i++) {
+        document.querySelectorAll(header)[i].style = "display:block";
+        document.querySelectorAll(separator)[i].style = "display:block";
       }
       if (name === "USER_SETTINGS") {
-        document.querySelectorAll(".separator-2wx7h6")[
-          document.querySelectorAll(".header-2Kx1US").length + 1
+        document.querySelectorAll(separator)[
+          document.querySelectorAll(header).length + 1
         ].style = "display:block";
-        document.querySelector(".socialLinks-3ywLUf").style = "display:block";
-        document.querySelector(".info-3pQQBb").style = "display:block";
+        document.querySelector(socialLinks).style = "display:block";
+        document.querySelector(info).style = "display:block";
       }
       if (document.getElementsByClassName("noresults")[0] !== undefined) {
         document.getElementsByClassName("noresults")[0].remove();
       }
     }
     if (value === "$hidden") {
-      let showelements = document.getElementsByClassName(
-        "better-settings-hidden"
-      );
+      let showelements = document.getElementsByClassName("bs-hidden");
       for (let i = 0; i < showelements.length; i++) {
         showelements[
           i

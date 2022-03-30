@@ -13,7 +13,7 @@ const { header, separator } = getModule(
   ["header", "separator", "themed", "item"],
   false
 );
-
+const { side: side_class } = getModule(["side"], false);
 const PluginSettings = require("./components/Settings");
 const SearchTextbox = require("./components/SearchTextbox");
 
@@ -50,23 +50,10 @@ module.exports = class BetterSettings extends Plugin {
 
     const autoFocus = (autofocus) => {
       setTimeout(() => {
-        if (autofocus === true) {
-          log("[BetterSettings]", "focusedElem");
-          log(
-            "[BetterSettings]",
-            document.querySelector(
-              `[aria-label="USER_SETTINGS"] ${document.activeElement.className}`
-            )
-          );
-          if (
-            document.querySelector(
-              `[aria-label="USER_SETTINGS"] ${document.activeElement.className}`
-            ) !== undefined
-          ) {
-            document.getElementById("settingssearch").focus();
-          }
-        }
-      }, 1);
+        if (autofocus === true)
+          document.getElementById("settingssearch").focus();
+        else document.getElementById("settingssearch").blur();
+      }, 0);
     };
 
     inject(
@@ -138,25 +125,20 @@ module.exports = class BetterSettings extends Plugin {
         log("[BetterSettings]", `settingsID: ${sectionID}`);
         log("[BetterSettings]", res);
 
-        settings = document.querySelector(
-          `[aria-label="USER_SETTINGS"] .side-2ur1Qk`
-        );
+        settings = document.querySelector(`.${side_class}`);
         if (document.getElementById("settingssearch") == null) {
           if (noreset === true && lastsection[sectionID]) {
             settingsModule.open(lastsection[sectionID]);
           }
           // autoFocus(autofocus);
           setTimeout(() => {
-            settings = document.querySelector(
-              `[aria-label="USER_SETTINGS"] .side-2ur1Qk`
-            );
+            settings = document.querySelector(`.${side_class}`);
+
             if (settings != null && settings.id !== "checked") {
               SearchUtil.search(
                 thisPlugin,
                 settingsModule,
-                document.querySelector(
-                  `[aria-label="USER_SETTINGS"] .side-2ur1Qk`
-                ),
+                document.querySelector(`.${side_class}`),
                 sidebarItems,
                 "USER_SETTINGS"
               );
@@ -165,7 +147,7 @@ module.exports = class BetterSettings extends Plugin {
         }
 
         // Remember last page (dependant on page)
-        if (document.querySelector(`[aria-label="GUILD_SETTINGS"]`) === null) {
+        if (document.querySelector(`balls`) === null) {
           if (res.props.section !== "My Account") {
             lastsection[sectionID] = res.props.section;
           } else if (
@@ -177,9 +159,7 @@ module.exports = class BetterSettings extends Plugin {
         }
 
         setTimeout(() => {
-          settings = document.querySelector(
-            `[aria-label="GUILD_SETTINGS"] .side-2ur1Qk`
-          );
+          settings = document.querySelector(`.${side_class}`);
           if (settings != null && settings.id !== "checked") {
             // autoFocus(autofocus);
             SearchUtil.search(
@@ -334,8 +314,10 @@ module.exports = class BetterSettings extends Plugin {
       SettingsView.prototype,
       "render",
       (_, res) => {
-        FavouritesUtil.favourites(thisPlugin, res);
-        DisabledUtil.disabled(thisPlugin, res);
+        if (res.props.section != "OVERVIEW") {
+          FavouritesUtil.favourites(thisPlugin, res);
+          DisabledUtil.disabled(thisPlugin, res);
+        }
         return res;
       },
       false
